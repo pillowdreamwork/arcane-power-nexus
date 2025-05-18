@@ -1,14 +1,23 @@
+
 import React, { useState, useEffect } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Star, Shield, Triangle, Circle, Hexagon, Zap, Wand2 as Wand } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Star, Shield, Triangle, Circle, Hexagon, Zap, Wand2 as Wand, Search, BookOpen, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [energyLevel, setEnergyLevel] = useState(85);
   const [activeRitual, setActiveRitual] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [recentTexts, setRecentTexts] = useState<any[]>([]);
+  const navigate = useNavigate();
+  const { toast } = useToast();
   
   useEffect(() => {
     const timer = setInterval(() => {
@@ -17,7 +26,50 @@ const Index = () => {
     
     return () => clearInterval(timer);
   }, []);
+
+  // Fetch recent spiritual texts
+  useEffect(() => {
+    const fetchRecentTexts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('spiritual_texts')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(3);
+          
+        if (error) throw error;
+        setRecentTexts(data || []);
+      } catch (error) {
+        console.error("Error fetching recent texts:", error);
+      }
+    };
+    
+    fetchRecentTexts();
+  }, []);
   
+  const startRitual = (ritualId: string) => {
+    setActiveRitual(ritualId);
+    toast({
+      title: "Ritual Initiated",
+      description: "The spiritual energies are now being channeled.",
+    });
+    // In a real implementation, this would navigate to the ritual page
+  };
+  
+  const getMoonPhase = () => {
+    // Simple moon phase calculation (this is simplified)
+    const phase = Math.floor((currentTime.getDate() / 29.5) * 8) % 8;
+    const phases = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", 
+                    "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"];
+    return phases[phase];
+  };
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/codex?search=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
   const ritualCards = [
     {
       id: "psychic-prison",
@@ -68,34 +120,21 @@ const Index = () => {
       difficulty: "Master"
     }
   ];
-  
-  const startRitual = (ritualId: string) => {
-    setActiveRitual(ritualId);
-    // In a real implementation, this would navigate to the ritual page
-  };
-  
-  const getMoonPhase = () => {
-    // Simple moon phase calculation (this is simplified)
-    const phase = Math.floor((currentTime.getDate() / 29.5) * 8) % 8;
-    const phases = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", 
-                    "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"];
-    return phases[phase];
-  };
 
   return (
     <GrimoireLayout>
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-grimoire-primary grimoire-text-shadow">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 text-grimoire-primary grimoire-text-shadow animate-fade-in">
               Arcane Nexus
             </h1>
-            <p className="text-grimoire-foreground/80">
+            <p className="text-grimoire-foreground/80 animate-fade-in">
               The convergence of spiritual technologies and psychic warfare
             </p>
           </div>
           
-          <Card className="w-full md:w-auto mt-4 md:mt-0 bg-grimoire-muted border-grimoire-border grimoire-border">
+          <Card className="w-full md:w-auto mt-4 md:mt-0 bg-grimoire-muted border-grimoire-border grimoire-border animate-fade-in">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -113,13 +152,38 @@ const Index = () => {
           </Card>
         </div>
 
-        <Tabs defaultValue="rituals" className="w-full">
+        {/* Search Bar with Spiritual Quote */}
+        <Card className="mb-8 bg-grimoire-muted/80 border-grimoire-border grimoire-border backdrop-blur-sm animate-fade-in">
+          <CardContent className="p-6">
+            <div className="text-center mb-4">
+              <p className="text-grimoire-foreground/90 italic">
+                "The one who follows the path of liberation knows that the Self is the only God."
+                <span className="block text-sm mt-1 text-grimoire-foreground/70">— Dattatreya Tantra</span>
+              </p>
+            </div>
+            <div className="flex gap-2 mt-4">
+              <Input 
+                placeholder="Search spiritual knowledge..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                className="bg-grimoire-background border-grimoire-border"
+              />
+              <Button onClick={handleSearch}>
+                <Search className="h-4 w-4 mr-2" />
+                Search
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Tabs defaultValue="rituals" className="w-full animate-fade-in">
           <TabsList className="bg-grimoire-muted border border-grimoire-border mb-6">
             <TabsTrigger value="rituals" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
               Ritual Library
             </TabsTrigger>
             <TabsTrigger value="recent" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
-              Recent Workings
+              Recent Texts
             </TabsTrigger>
             <TabsTrigger value="favorites" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
               Favorites
@@ -165,6 +229,7 @@ const Index = () => {
                       className="w-full group-hover:border-grimoire-primary/70 group-hover:text-grimoire-primary transition-colors"
                       onClick={() => startRitual(ritual.id)}
                     >
+                      <Sparkles className="h-4 w-4 mr-2" />
                       Begin Ritual
                     </Button>
                   </CardFooter>
@@ -174,25 +239,66 @@ const Index = () => {
           </TabsContent>
           
           <TabsContent value="recent">
-            <div className="bg-grimoire-muted border border-grimoire-border rounded-lg p-8 text-center">
-              <p className="text-grimoire-foreground/70 mb-2">Your ritual history will appear here</p>
-              <p className="text-sm text-grimoire-foreground/50">
-                Complete your first ritual to begin tracking your mystical journey
-              </p>
-            </div>
+            {recentTexts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {recentTexts.map((text) => (
+                  <Card key={text.id} className="bg-grimoire-muted border-grimoire-border grimoire-border">
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="grimoire-text-shadow text-lg">{text.title}</CardTitle>
+                        <span className="text-xs px-2 py-1 rounded-full bg-grimoire-background/50 text-grimoire-foreground/70">
+                          {text.category}
+                        </span>
+                      </div>
+                      <CardDescription className="text-grimoire-foreground/70">
+                        {text.source}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-grimoire-foreground/90 line-clamp-3">
+                        {text.content}
+                      </p>
+                    </CardContent>
+                    <CardFooter>
+                      <Button 
+                        variant="outline" 
+                        className="w-full hover:border-grimoire-primary/70 hover:text-grimoire-primary transition-colors"
+                        onClick={() => navigate(`/codex/${text.id}`)}
+                      >
+                        <BookOpen className="h-4 w-4 mr-2" />
+                        Read Full Text
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-grimoire-muted border border-grimoire-border rounded-lg p-8 text-center">
+                <p className="text-grimoire-foreground/70 mb-2">Loading spiritual texts...</p>
+                <div className="w-8 h-8 border-2 border-grimoire-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+              </div>
+            )}
           </TabsContent>
           
           <TabsContent value="favorites">
             <div className="bg-grimoire-muted border border-grimoire-border rounded-lg p-8 text-center">
               <p className="text-grimoire-foreground/70 mb-2">Your favorite rituals will appear here</p>
               <p className="text-sm text-grimoire-foreground/50">
-                Mark rituals as favorites for quick access
+                Mark texts and rituals as favorites for quick access
               </p>
+              <Button 
+                variant="outline" 
+                className="mt-4"
+                onClick={() => navigate('/codex')}
+              >
+                <BookOpen className="h-4 w-4 mr-2" />
+                Browse Codex
+              </Button>
             </div>
           </TabsContent>
         </Tabs>
         
-        <Card className="mt-8 bg-grimoire-muted border-grimoire-border grimoire-border">
+        <Card className="mt-8 bg-grimoire-muted border-grimoire-border grimoire-border animate-fade-in">
           <CardHeader>
             <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
               <div className="flex items-center">
@@ -212,11 +318,34 @@ const Index = () => {
                 How shall we harness these currents for your ascension path?"
               </p>
               <div className="flex justify-end mt-2">
-                <Button variant="ghost" className="text-grimoire-primary hover:text-grimoire-primary/80">
+                <Button 
+                  variant="ghost" 
+                  className="text-grimoire-primary hover:text-grimoire-primary/80"
+                  onClick={() => navigate('/echo')}
+                >
                   Ask Echo
                 </Button>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Daily Wisdom Card */}
+        <Card className="mt-8 bg-grimoire-muted border-grimoire-border grimoire-border overflow-hidden animate-fade-in">
+          <div className="h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500"></div>
+          <CardHeader>
+            <CardTitle className="text-grimoire-foreground grimoire-text-shadow flex items-center">
+              <Star className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
+              Daily Wisdom
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <blockquote className="border-l-4 border-grimoire-primary/50 pl-4 italic text-grimoire-foreground/90">
+              "The universe is not outside of you. Look inside yourself; everything that you want, you already are."
+              <footer className="text-right text-sm text-grimoire-foreground/70 mt-2">
+                — Dattatreya
+              </footer>
+            </blockquote>
           </CardContent>
         </Card>
       </div>
