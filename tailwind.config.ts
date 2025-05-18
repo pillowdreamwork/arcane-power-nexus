@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom color scheme for the grimoire
+				grimoire: {
+					background: '#121218',
+					foreground: '#e0e0ff',
+					primary: '#8B5CF6', // Purple
+					secondary: '#4F46E5', // Indigo
+					accent: '#EF4444', // Red
+					muted: '#1F1E33',
+					border: '#2D2B52'
 				}
 			},
 			borderRadius: {
@@ -70,25 +81,41 @@ export default {
 			},
 			keyframes: {
 				'accordion-down': {
-					from: {
-						height: '0'
-					},
-					to: {
-						height: 'var(--radix-accordion-content-height)'
-					}
+					from: { height: '0' },
+					to: { height: 'var(--radix-accordion-content-height)' }
 				},
 				'accordion-up': {
-					from: {
-						height: 'var(--radix-accordion-content-height)'
-					},
-					to: {
-						height: '0'
-					}
+					from: { height: 'var(--radix-accordion-content-height)' },
+					to: { height: '0' }
+				},
+				'pulse-subtle': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.8' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
+				},
+				'rotate-slow': {
+					'0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg)' }
+				},
+				'ripple': {
+					'0%': { transform: 'scale(0.95)', opacity: '0.8' },
+					'100%': { transform: 'scale(2)', opacity: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-subtle': 'pulse-subtle 3s ease-in-out infinite',
+				'float': 'float 6s ease-in-out infinite',
+				'rotate-slow': 'rotate-slow 12s linear infinite',
+				'ripple': 'ripple 2s linear infinite'
+			},
+			backgroundImage: {
+				'grimoire-gradient': 'radial-gradient(circle at center, #2D2B52 0%, #121218 100%)',
+				'ritual-pattern': "url('/ritual-pattern.svg')"
 			}
 		}
 	},

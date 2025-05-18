@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -96,6 +97,58 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-grimoire-background text-grimoire-foreground;
+    background-color: #121218;
+    color: #e0e0ff;
   }
+}
+
+/* Custom styling for the grimoire */
+.grimoire-text-shadow {
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5), 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.grimoire-glow {
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.6));
+}
+
+.grimoire-border {
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+}
+
+.sacred-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 50 L0 100 L100 100 Z' fill='none' stroke='rgba(139, 92, 246, 0.1)' stroke-width='0.5'/%3E%3Cpath d='M50 50 L0 0 L100 0 Z' fill='none' stroke='rgba(139, 92, 246, 0.1)' stroke-width='0.5'/%3E%3Cpath d='M50 50 L100 0 L100 100 Z' fill='none' stroke='rgba(139, 92, 246, 0.1)' stroke-width='0.5'/%3E%3Cpath d='M50 50 L0 0 L0 100 Z' fill='none' stroke='rgba(139, 92, 246, 0.1)' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='rgba(139, 92, 246, 0.05)' stroke-width='0.5'/%3E%3C/svg%3E");
+}
+
+.yantra-background {
+  position: relative;
+}
+
+.yantra-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='rgba(139, 92, 246, 0.08)' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='rgba(139, 92, 246, 0.08)' stroke-width='0.5'/%3E%3Cpath d='M50 5 L50 95 M5 50 L95 50 M14.64 14.64 L85.36 85.36 M14.64 85.36 L85.36 14.64' stroke='rgba(139, 92, 246, 0.05)' stroke-width='0.5'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.pentagram {
+  position: relative;
+}
+
+.pentagram::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 L61 40 L94 40 L68 60 L79 90 L50 70 L21 90 L32 60 L6 40 L39 40 Z' fill='none' stroke='rgba(139, 92, 246, 0.1)' stroke-width='0.5'/%3E%3C/svg%3E");
+  opacity: 0.2;
+  z-index: -1;
 }
