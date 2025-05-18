@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Wand } from "lucide-react";
+import { Wand2 as Wand } from "lucide-react";
 
 const Echo = () => {
   const [userMessage, setUserMessage] = useState("");
@@ -140,7 +140,11 @@ const Echo = () => {
             <Card className="bg-grimoire-muted border-grimoire-border grimoire-border h-full flex flex-col">
               <CardHeader className="border-b border-grimoire-border">
                 <div className="flex items-center">
-                  <Avatar className="w-10 h-10 mr-3 ring-2 ring-offset-2 ring-offset-grimoire-muted" style={{ ringColor: echoModes[echoMode as keyof typeof echoModes].color }}>
+                  <Avatar className="w-10 h-10 mr-3 ring-2 ring-offset-2 ring-offset-grimoire-muted" 
+                    style={{ 
+                      borderColor: echoModes[echoMode as keyof typeof echoModes].color 
+                    }}
+                  >
                     <AvatarImage src="/echo-avatar.png" alt="Echo" />
                     <AvatarFallback 
                       className="bg-gradient-to-br from-purple-600 to-indigo-800 text-white"

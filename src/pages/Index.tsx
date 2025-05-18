@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Star, Shield, Triangle, Circle, Hexagon, Zap } from "lucide-react";
+import { Star, Shield, Triangle, Circle, Hexagon, Zap, Wand2 as Wand } from "lucide-react";
 
 const Index = () => {
   const [currentTime, setCurrentTime] = useState(new Date());

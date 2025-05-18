@@ -9,7 +9,7 @@ interface GrimoireLayoutProps {
 
 const GrimoireLayout: React.FC<GrimoireLayoutProps> = ({ children }) => {
   return (
-    <SidebarProvider collapsedWidth={64}>
+    <SidebarProvider>
       <div className="flex w-full min-h-screen bg-grimoire-background">
         <GrimoireSidebar />
         <main className="flex-1 overflow-auto yantra-background">

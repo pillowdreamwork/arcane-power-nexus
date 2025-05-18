@@ -16,7 +16,7 @@ import {
 import { 
   Star, 
   Shield, 
-  Wand, 
+  Wand2 as Wand, 
   Triangle, 
   Circle, 
   Hexagon,
@@ -69,7 +69,8 @@ const sidebarItems = [
 ];
 
 const GrimoireSidebar = () => {
-  const { collapsed } = useSidebar();
+  const sidebar = useSidebar();
+  const isCollapsed = sidebar.state === "collapsed";
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const location = window.location;
   const currentPath = location.pathname;
@@ -84,16 +85,16 @@ const GrimoireSidebar = () => {
 
   return (
     <Sidebar
-      className={`${collapsed ? "w-16" : "w-64"} bg-grimoire-background border-r border-grimoire-border transition-all duration-300 sacred-pattern`}
-      collapsible
+      className={`${isCollapsed ? "w-16" : "w-64"} bg-grimoire-background border-r border-grimoire-border transition-all duration-300 sacred-pattern`}
+      collapsible="icon"
     >
       <SidebarTrigger className="m-2 self-end text-grimoire-primary hover:text-grimoire-foreground grimoire-glow" />
       
       <div className="flex justify-center mb-6 mt-2">
         <div 
-          className={`text-center ${collapsed ? "scale-75" : ""} transition-transform duration-300`}
+          className={`text-center ${isCollapsed ? "scale-75" : ""} transition-transform duration-300`}
         >
-          {!collapsed && (
+          {!isCollapsed && (
             <h1 className="text-xl font-bold text-grimoire-primary grimoire-text-shadow">
               Post-Genesis
             </h1>
@@ -104,7 +105,7 @@ const GrimoireSidebar = () => {
               <Star className="w-8 h-8 text-grimoire-primary animate-float grimoire-glow" />
             </div>
           </div>
-          {!collapsed && (
+          {!isCollapsed && (
             <h2 className="text-lg font-semibold text-grimoire-foreground">
               Power Codex
             </h2>
@@ -113,9 +114,9 @@ const GrimoireSidebar = () => {
       </div>
 
       <SidebarContent>
-        <SidebarGroup open={true}>
+        <SidebarGroup>
           <SidebarGroupLabel 
-            className={`text-grimoire-foreground/70 ${collapsed ? "sr-only" : ""}`}
+            className={`text-grimoire-foreground/70 ${isCollapsed ? "sr-only" : ""}`}
           >
             Grimoire Sections
           </SidebarGroupLabel>
@@ -132,13 +133,13 @@ const GrimoireSidebar = () => {
                     <SidebarMenuButton asChild>
                       <NavLink to={item.url} end className={getNavCls}>
                         <item.icon 
-                          className={`${collapsed ? "mx-auto" : "mr-3"} h-5 w-5 ${isActive(item.url) ? "text-grimoire-primary" : "text-grimoire-foreground/80"}`} 
+                          className={`${isCollapsed ? "mx-auto" : "mr-3"} h-5 w-5 ${isActive(item.url) ? "text-grimoire-primary" : "text-grimoire-foreground/80"}`} 
                         />
-                        {!collapsed && <span>{item.title}</span>}
+                        {!isCollapsed && <span>{item.title}</span>}
                       </NavLink>
                     </SidebarMenuButton>
                     
-                    {hoveredItem === item.title && !collapsed && (
+                    {hoveredItem === item.title && !isCollapsed && (
                       <div 
                         className="absolute left-0 bottom-0 h-0.5 bg-grimoire-primary animate-pulse-subtle"
                         style={{ width: "100%" }}
@@ -151,7 +152,7 @@ const GrimoireSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
         
-        <div className={`mt-auto mb-4 px-4 pt-4 border-t border-grimoire-border ${collapsed ? "hidden" : ""}`}>
+        <div className={`mt-auto mb-4 px-4 pt-4 border-t border-grimoire-border ${isCollapsed ? "hidden" : ""}`}>
           <div className="text-xs text-grimoire-foreground/50 text-center animate-pulse-subtle">
             <p>Energy Level: High</p>
             <div className="w-full bg-grimoire-muted rounded-full h-1 mt-1">
