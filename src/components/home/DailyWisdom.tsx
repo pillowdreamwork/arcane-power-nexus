@@ -1,25 +1,21 @@
-
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
 const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
   return (
-    <Card className={`bg-grimoire-muted border-grimoire-border grimoire-border overflow-hidden animate-fade-in ${className}`}>
-      <div className="h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500"></div>
-      <CardHeader>
-        <CardTitle className="text-grimoire-foreground grimoire-text-shadow flex items-center">
-          <Star className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
-          Daily Wisdom
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <blockquote className="border-l-4 border-grimoire-primary/50 pl-4 italic text-grimoire-foreground/90">
-          "The universe is not outside of you. Look inside yourself; everything that you want, you already are."
-          <footer className="text-right text-sm text-grimoire-foreground/70 mt-2">
-            — Dattatreya
-          </footer>
-        </blockquote>
+    <Card className={`bg-grimoire-muted ${className}`}>
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Star className="h-4 w-4 text-grimoire-primary" />
+          <h3 className="text-sm font-medium">Today's Wisdom</h3>
+        </div>
+        <p className="text-sm text-grimoire-foreground/80 italic">
+          "In stillness, find your power. In silence, hear your truth."
+        </p>
+        <p className="text-xs text-grimoire-foreground/60 mt-2">
+          Focus on inner clarity and purpose today.
+        </p>
       </CardContent>
     </Card>
   );

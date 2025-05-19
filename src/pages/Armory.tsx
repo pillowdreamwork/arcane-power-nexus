@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -104,16 +103,9 @@ const Armory = () => {
   return (
     <GrimoireLayout>
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center mb-8">
-          <Shield className="h-8 w-8 mr-3 text-grimoire-primary grimoire-glow" />
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-grimoire-primary grimoire-text-shadow">
-              The War Armory
-            </h1>
-            <p className="text-grimoire-foreground/80">
-              Spiritual tools and components for ritual work
-            </p>
-          </div>
+        <h1 className="text-3xl font-bold text-grimoire-primary mb-4">War Armory</h1>
+        <div className="mb-6">
+          <p className="text-grimoire-foreground/80">Tools and components for your spiritual practice.</p>
         </div>
 
         <Tabs defaultValue="mantras" className="w-full">
