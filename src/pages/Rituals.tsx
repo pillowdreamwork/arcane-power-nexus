@@ -1,14 +1,17 @@
-
 import React, { useState } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Circle } from "lucide-react";
+import RitualLibrary from "@/components/home/RitualLibrary";
+import RitualCard from "@/components/home/RitualCard";
+import { ritualCards } from "@/components/home/ritualData";
 
 const Rituals = () => {
   const [activeSpace, setActiveSpace] = useState("circle");
-  
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+
   const ritualSpaces = {
     circle: {
       name: "Circle Chamber",
@@ -40,6 +43,11 @@ const Rituals = () => {
     "Banishing", "Invocation", "Evocation", "Charging",
     "Astral Travel", "Divination", "Communion", "Binding"
   ];
+
+  // Filter rituals by type if selectedType is set (for demo, filter by difficulty)
+  const filteredRituals = selectedType
+    ? ritualCards.filter(r => r.difficulty.toLowerCase().includes(selectedType.toLowerCase()))
+    : ritualCards;
 
   return (
     <GrimoireLayout>
@@ -149,6 +157,37 @@ const Rituals = () => {
                 <Button>Enter Space</Button>
               </CardFooter>
             </Card>
+
+            {/* Ritual Library Section */}
+            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border mt-8">
+              <CardHeader>
+                <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                  Ritual Library
+                </CardTitle>
+                <CardDescription className="text-grimoire-foreground/70">
+                  Explore and begin rituals
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {filteredRituals.length > 0 ? (
+                    filteredRituals.map(ritual => (
+                      <RitualCard
+                        key={ritual.id}
+                        id={ritual.id}
+                        title={ritual.title}
+                        description={ritual.description}
+                        icon={ritual.icon}
+                        color={ritual.color}
+                        difficulty={ritual.difficulty}
+                      />
+                    ))
+                  ) : (
+                    <p className="text-grimoire-foreground/60">No rituals found for this type.</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           <div className="space-y-6">
@@ -186,9 +225,10 @@ const Rituals = () => {
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {ritualTypes.map((type) => (
-                    <span 
-                      key={type} 
-                      className="px-3 py-1 bg-grimoire-background border border-grimoire-border rounded-full text-sm cursor-pointer hover:border-grimoire-primary/70 transition-colors"
+                    <span
+                      key={type}
+                      className={`px-3 py-1 bg-grimoire-background border border-grimoire-border rounded-full text-sm cursor-pointer hover:border-grimoire-primary/70 transition-colors ${selectedType === type ? 'border-grimoire-primary bg-grimoire-primary/10' : ''}`}
+                      onClick={() => setSelectedType(type === selectedType ? null : type)}
                     >
                       {type}
                     </span>
