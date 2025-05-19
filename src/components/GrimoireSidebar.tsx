@@ -1,6 +1,6 @@
 
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { 
   Sidebar, 
   SidebarContent, 
@@ -20,8 +20,13 @@ import {
   Triangle, 
   Circle, 
   Hexagon,
-  Zap
+  Zap,
+  User,
+  LogIn,
+  Sparkles
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "./ui/button";
 
 const sidebarItems = [
   { 
@@ -65,6 +70,12 @@ const sidebarItems = [
     url: "/warfare", 
     icon: Zap,
     description: "Combat and defense"
+  },
+  { 
+    title: "Practice Rituals", 
+    url: "/practice", 
+    icon: Sparkles,
+    description: "Guided spiritual practices"
   }
 ];
 
@@ -74,6 +85,8 @@ const GrimoireSidebar = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const location = window.location;
   const currentPath = location.pathname;
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
 
   const isActive = (path: string) => currentPath === path;
   const isExpanded = sidebarItems.some((i) => isActive(i.url));
@@ -82,6 +95,21 @@ const GrimoireSidebar = () => {
     isActive 
       ? "bg-grimoire-muted text-grimoire-primary font-medium flex items-center p-2 rounded-md grimoire-text-shadow grimoire-glow"
       : "hover:bg-grimoire-muted/60 flex items-center p-2 rounded-md transition-colors duration-200";
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setUser(data.session?.user || null);
+    };
+    
+    checkSession();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <Sidebar
@@ -153,7 +181,43 @@ const GrimoireSidebar = () => {
         </SidebarGroup>
         
         <div className={`mt-auto mb-4 px-4 pt-4 border-t border-grimoire-border ${isCollapsed ? "hidden" : ""}`}>
-          <div className="text-xs text-grimoire-foreground/50 text-center animate-pulse-subtle">
+          {user ? (
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="w-8 h-8 rounded-full bg-grimoire-primary/20 flex items-center justify-center">
+                  <User className="h-4 w-4 text-grimoire-primary" />
+                </div>
+                <div className="ml-2 overflow-hidden">
+                  <p className="text-xs font-medium truncate text-grimoire-foreground">
+                    {user.user_metadata?.name || 'User'}
+                  </p>
+                  <p className="text-xs text-grimoire-foreground/50 truncate">
+                    {user.email}
+                  </p>
+                </div>
+              </div>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="h-8 w-8 p-0"
+                onClick={() => navigate('/profile')}
+              >
+                <User className="h-4 w-4 text-grimoire-foreground/70" />
+              </Button>
+            </div>
+          ) : (
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="w-full text-grimoire-primary border-grimoire-border hover:bg-grimoire-muted/60"
+              onClick={() => navigate('/auth')}
+            >
+              <LogIn className="h-4 w-4 mr-2" />
+              Sign In
+            </Button>
+          )}
+          
+          <div className="text-xs text-grimoire-foreground/50 text-center animate-pulse-subtle mt-4">
             <p>Energy Level: High</p>
             <div className="w-full bg-grimoire-muted rounded-full h-1 mt-1">
               <div className="bg-grimoire-primary h-1 rounded-full w-4/5"></div>

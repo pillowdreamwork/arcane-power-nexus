@@ -12,6 +12,9 @@ import Armory from "./pages/Armory";
 import Echo from "./pages/Echo";
 import Warfare from "./pages/Warfare";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
+import Practice from "./pages/Practice";
+import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +32,9 @@ const App = () => (
           <Route path="/armory" element={<Armory />} />
           <Route path="/echo" element={<Echo />} />
           <Route path="/warfare" element={<Warfare />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/practice" element={<Practice />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
