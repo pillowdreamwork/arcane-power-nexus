@@ -1,9 +1,9 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import AnimatedRoutes from "./AnimatedRoutes";
 import Index from "./pages/Index";
 import Codex from "./pages/Codex";
 import Liberation from "./pages/Liberation";
@@ -24,19 +24,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/codex" element={<Codex />} />
-          <Route path="/liberation" element={<Liberation />} />
-          <Route path="/rituals" element={<Rituals />} />
-          <Route path="/armory" element={<Armory />} />
-          <Route path="/echo" element={<Echo />} />
-          <Route path="/warfare" element={<Warfare />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/practice" element={<Practice />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
