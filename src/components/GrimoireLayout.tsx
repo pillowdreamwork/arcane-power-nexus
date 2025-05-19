@@ -5,9 +5,6 @@ import EnergyParticles from "./EnergyParticles";
 import RevealOnScroll from "./RevealOnScroll";
 import { motion } from "framer-motion";
 import SpiritualProgress from "./SpiritualProgress";
-import SpiritualQuote from "./SpiritualQuote";
-import QuickJournal from "./QuickJournal";
-import CosmicCalendar from "./CosmicCalendar";
 
 interface GrimoireLayoutProps {
   children: React.ReactNode;
@@ -41,8 +38,6 @@ const GrimoireLayout: React.FC<GrimoireLayoutProps> = ({ children }) => {
           {/* Content */}
           <div className="relative z-10">
             <SpiritualProgress />
-            <SpiritualQuote className="mb-6" />
-            <CosmicCalendar />
             <motion.div
               initial={{ opacity: 0, scale: 0.98, y: 24 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -54,7 +49,6 @@ const GrimoireLayout: React.FC<GrimoireLayoutProps> = ({ children }) => {
               </RevealOnScroll>
             </motion.div>
           </div>
-          <QuickJournal />
         </main>
       </div>
     </SidebarProvider>
