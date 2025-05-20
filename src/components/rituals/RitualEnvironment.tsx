@@ -1,7 +1,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, useGLTF, Text, Stars, PerspectiveCamera } from "@react-three/drei";
+import { OrbitControls, Text, Stars, PerspectiveCamera } from "@react-three/drei";
 import { useToast } from "@/hooks/use-toast";
 import * as THREE from 'three';
 

@@ -6,13 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Circle, Info } from "lucide-react";
 import RitualLibrary from "@/components/home/RitualLibrary";
-import RitualCard from "@/components/home/RitualCard";
 import { ritualCards } from "@/components/home/ritualData";
 import RitualEnvironment from "@/components/rituals/RitualEnvironment";
 import RitualController from "@/components/rituals/RitualController";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+
+interface RitualSpace {
+  name: string;
+  description: string;
+  elements: string[];
+  activeEffect: string;
+}
 
 const Rituals = () => {
   const [activeSpace, setActiveSpace] = useState("circle");
@@ -33,7 +39,7 @@ const Rituals = () => {
     return () => clearInterval(interval);
   }, [energyLevel, isRitualActive]);
 
-  const ritualSpaces = {
+  const ritualSpaces: Record<string, RitualSpace> = {
     circle: {
       name: "Circle Chamber",
       description: "Traditional protective boundary for entity work",
@@ -74,7 +80,7 @@ const Rituals = () => {
     setIsRitualActive(true);
     toast({
       title: "Ritual Space Activated",
-      description: `The ${ritualSpaces[activeSpace as keyof typeof ritualSpaces].name} is now energetically active.`,
+      description: `The ${ritualSpaces[activeSpace].name} is now energetically active.`,
     });
   };
 
@@ -98,7 +104,7 @@ const Rituals = () => {
                   setIsRitualActive(false);
                 }}
               >
-                {(ritualSpaces as any)[space].name.split(" ")[0]}
+                {ritualSpaces[space].name.split(" ")[0]}
               </Button>
             ))}
           </div>
@@ -124,7 +130,7 @@ const Rituals = () => {
                   className="bg-grimoire-primary hover:bg-grimoire-primary/90"
                 >
                   <Circle className="h-4 w-4 mr-2" />
-                  Activate {ritualSpaces[activeSpace as keyof typeof ritualSpaces].name}
+                  Activate {ritualSpaces[activeSpace].name}
                 </Button>
               ) : (
                 <Button 
@@ -137,7 +143,6 @@ const Rituals = () => {
             </div>
           </div>
 
-          {/* Fix: Removed 'as' prop from motion.div since it's not supported */}
           <motion.div 
             className="bg-grimoire-muted border-grimoire-border rounded-lg p-4"
             initial={{ opacity: 0, x: 20 }}
@@ -145,16 +150,16 @@ const Rituals = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <CardHeader>
-              <CardTitle className="text-grimoire-foreground">{ritualSpaces[activeSpace as keyof typeof ritualSpaces].name}</CardTitle>
-              <CardDescription>{ritualSpaces[activeSpace as keyof typeof ritualSpaces].description}</CardDescription>
+              <CardTitle className="text-grimoire-foreground">{ritualSpaces[activeSpace].name}</CardTitle>
+              <CardDescription>{ritualSpaces[activeSpace].description}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2 mb-2">
-                {ritualSpaces[activeSpace as keyof typeof ritualSpaces].elements.map((element, index) => (
+                {ritualSpaces[activeSpace].elements.map((element, index) => (
                   <span key={index} className="px-2 py-1 bg-grimoire-background border rounded text-xs">{element}</span>
                 ))}
               </div>
-              <div className="text-sm text-grimoire-foreground/80 mt-4">Effect: {ritualSpaces[activeSpace as keyof typeof ritualSpaces].activeEffect}</div>
+              <div className="text-sm text-grimoire-foreground/80 mt-4">Effect: {ritualSpaces[activeSpace].activeEffect}</div>
               
               <Separator className="my-4" />
               
@@ -167,7 +172,7 @@ const Rituals = () => {
                 </DrawerTrigger>
                 <DrawerContent className="bg-grimoire-background text-grimoire-foreground p-4">
                   <DrawerHeader>
-                    <DrawerTitle>About {ritualSpaces[activeSpace as keyof typeof ritualSpaces].name}</DrawerTitle>
+                    <DrawerTitle>About {ritualSpaces[activeSpace].name}</DrawerTitle>
                     <DrawerDescription>Historical and practical context</DrawerDescription>
                   </DrawerHeader>
                   <div className="p-4 space-y-4 text-sm">
