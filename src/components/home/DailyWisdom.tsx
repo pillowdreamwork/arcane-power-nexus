@@ -1,9 +1,9 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, RefreshCw } from "lucide-react";
+import { Star, RefreshCw, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const wisdomQuotes = [
   {
@@ -52,7 +52,10 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
   const [currentWisdom, setCurrentWisdom] = useState(wisdomQuotes[0]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isRevealing, setIsRevealing] = useState(true);
-
+  const [energyLevel, setEnergyLevel] = useState(0);
+  const [isGlowing, setIsGlowing] = useState(false);
+  const quoteRef = useRef<HTMLParagraphElement>(null);
+  
   useEffect(() => {
     // Initial random wisdom
     const todayIndex = new Date().getDate() % wisdomQuotes.length;
@@ -61,14 +64,43 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
     // Animation timing
     const timer = setTimeout(() => {
       setIsRevealing(false);
+      
+      // Start energy buildup
+      const energyTimer = setInterval(() => {
+        setEnergyLevel(prev => {
+          if (prev >= 100) {
+            clearInterval(energyTimer);
+            setIsGlowing(true);
+            return 100;
+          }
+          return prev + 1;
+        });
+      }, 100);
+      
+      return () => {
+        clearInterval(energyTimer);
+      };
     }, 1000);
     
     return () => clearTimeout(timer);
   }, []);
+  
+  // Automatic glow pulsation
+  useEffect(() => {
+    if (isGlowing) {
+      const pulseInterval = setInterval(() => {
+        setIsGlowing(prev => !prev);
+      }, 3000);
+      
+      return () => clearInterval(pulseInterval);
+    }
+  }, [isGlowing]);
 
   const getNewWisdom = () => {
     setIsRefreshing(true);
     setIsRevealing(true);
+    setIsGlowing(false);
+    setEnergyLevel(0);
     
     // Simulating energetic connection
     setTimeout(() => {
@@ -78,14 +110,70 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
       
       setTimeout(() => {
         setIsRevealing(false);
+        
+        // Restart energy buildup
+        const energyTimer = setInterval(() => {
+          setEnergyLevel(prev => {
+            if (prev >= 100) {
+              clearInterval(energyTimer);
+              setIsGlowing(true);
+              return 100;
+            }
+            return prev + 1;
+          });
+        }, 50);
       }, 1000);
     }, 1200);
   };
 
+  // Particle effect for wisdom activation
+  const WisdomParticles = () => {
+    return isGlowing ? (
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 rounded-full bg-grimoire-primary/80"
+            initial={{ 
+              x: quoteRef.current ? quoteRef.current.offsetWidth / 2 : 100, 
+              y: quoteRef.current ? quoteRef.current.offsetHeight / 2 : 50,
+              scale: 0,
+              opacity: 1 
+            }}
+            animate={{ 
+              x: [null, (Math.random() - 0.5) * 300], 
+              y: [null, (Math.random() - 0.5) * 150],
+              scale: [0, 2 + Math.random() * 2],
+              opacity: [1, 0]
+            }}
+            transition={{ 
+              duration: 2 + Math.random() * 3,
+              ease: "easeOut",
+              repeat: Infinity,
+              repeatType: "loop",
+              delay: Math.random() * 2
+            }}
+          />
+        ))}
+      </div>
+    ) : null;
+  };
+
   return (
     <Card className={`bg-grimoire-muted relative overflow-hidden ${className}`}>
-      {/* Animating background pattern */}
-      <div className="absolute inset-0 sacred-pattern opacity-10"></div>
+      {/* Animated background pattern */}
+      <motion.div 
+        className="absolute inset-0 sacred-pattern opacity-10"
+        animate={{
+          backgroundPosition: ["0% 0%", "100% 100%"],
+        }}
+        transition={{
+          duration: 120,
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "reverse"
+        }}
+      />
       
       {/* Energetic pulse effect */}
       <motion.div
@@ -102,16 +190,53 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
         }}
       />
       
+      {/* Wisdom energy progress */}
+      <motion.div 
+        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-grimoire-primary via-purple-400 to-grimoire-primary"
+        style={{ width: `${energyLevel}%`, opacity: energyLevel > 0 ? 0.6 : 0 }}
+      />
+      
+      {/* Wisdom activation halo */}
+      <AnimatePresence>
+        {isGlowing && (
+          <motion.div 
+            className="absolute inset-0 rounded-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ 
+              opacity: [0, 0.6, 0],
+              scale: [0.8, 1.2, 1.5],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+            }}
+            style={{
+              background: "radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(139,92,246,0) 70%)"
+            }}
+          />
+        )}
+      </AnimatePresence>
+      
+      <WisdomParticles />
+      
       <CardContent className="p-4 relative z-10">
         <div className="flex items-center gap-2 mb-3">
           <motion.div
             animate={{
               rotate: isRefreshing ? 360 : 0,
-              scale: isRefreshing ? [1, 1.2, 1] : 1,
+              scale: isRefreshing ? [1, 1.2, 1] : isGlowing ? [1, 1.2, 1] : 1,
             }}
-            transition={{ duration: isRefreshing ? 1.2 : 0.3 }}
+            transition={{ 
+              duration: isRefreshing ? 1.2 : 2, 
+              repeat: isGlowing && !isRefreshing ? Infinity : 0,
+              repeatType: "reverse"
+            }}
           >
-            <Star className="h-4 w-4 text-grimoire-primary grimoire-glow" />
+            {isGlowing ? (
+              <Sparkles className="h-4 w-4 text-yellow-400 grimoire-glow" />
+            ) : (
+              <Star className="h-4 w-4 text-grimoire-primary grimoire-glow" />
+            )}
           </motion.div>
           <h3 className="text-sm font-medium">Today's Wisdom</h3>
           <Button 
@@ -127,21 +252,32 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
           </Button>
         </div>
         
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ 
-            opacity: isRevealing ? [0, 1] : 1,
-            y: isRevealing ? [10, 0] : 0,
-          }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-sm text-grimoire-foreground/80 italic mb-3">
-            "{currentWisdom.quote}"
-          </p>
-          <p className="text-xs text-grimoire-foreground/60">
-            {currentWisdom.guidance}
-          </p>
-        </motion.div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentWisdom.quote}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ 
+              opacity: isRevealing ? [0, 1] : 1,
+              y: isRevealing ? [10, 0] : 0,
+            }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.p 
+              ref={quoteRef}
+              className={`text-sm italic mb-3 ${isGlowing ? 'text-grimoire-primary font-medium grimoire-glow' : 'text-grimoire-foreground/80'}`}
+              animate={isGlowing ? {
+                textShadow: ["0 0 4px rgba(139,92,246,0)", "0 0 10px rgba(139,92,246,0.5)", "0 0 4px rgba(139,92,246,0)"]
+              } : {}}
+              transition={{ duration: 2, repeat: isGlowing ? Infinity : 0 }}
+            >
+              "{currentWisdom.quote}"
+            </motion.p>
+            <p className="text-xs text-grimoire-foreground/60">
+              {currentWisdom.guidance}
+            </p>
+          </motion.div>
+        </AnimatePresence>
         
         {/* Subtle shimmer effect */}
         <motion.div 

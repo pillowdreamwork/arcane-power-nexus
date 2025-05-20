@@ -271,7 +271,7 @@ const RitualScene = ({
           )}
         </group>
       )}
-    </group>
+    </>
   );
 };
 
