@@ -23,8 +23,12 @@ const RitualCircle = ({ active, energy, onInteract }: { active: boolean, energy:
     
     // Glow intensity based on activation
     if (active) {
-      circleRef.current.material.emissive.r = 0.5 + Math.sin(t * 3) * 0.2;
-      circleRef.current.material.emissive.b = 0.7 + Math.cos(t * 2) * 0.3;
+      // Fix: Check if the material is a MeshStandardMaterial before accessing emissive
+      const material = circleRef.current.material as THREE.MeshStandardMaterial;
+      if (material && material.emissive) {
+        material.emissive.r = 0.5 + Math.sin(t * 3) * 0.2;
+        material.emissive.b = 0.7 + Math.cos(t * 2) * 0.3;
+      }
     }
   });
 
