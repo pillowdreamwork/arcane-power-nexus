@@ -378,7 +378,7 @@ const RitualController: React.FC<RitualControllerProps> = ({
       toast({
         title: "Ritual Complete",
         description: "All stages have been successfully performed",
-        variant: "success",
+        // Fixed: Removing the invalid "success" variant
       });
     }
   };

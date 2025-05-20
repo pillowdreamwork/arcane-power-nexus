@@ -137,7 +137,9 @@ const Rituals = () => {
             </div>
           </div>
 
-          <Card className="bg-grimoire-muted border-grimoire-border" as={motion.div} 
+          {/* Fix: Removed 'as' prop from motion.div since it's not supported */}
+          <motion.div 
+            className="bg-grimoire-muted border-grimoire-border rounded-lg p-4"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -204,7 +206,7 @@ const Rituals = () => {
                 </DrawerContent>
               </Drawer>
             </CardContent>
-          </Card>
+          </motion.div>
         </div>
         
         {isRitualActive && (
