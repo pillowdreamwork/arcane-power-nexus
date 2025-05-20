@@ -1,15 +1,114 @@
 import * as THREE from 'three';
-import { useRef, useMemo, useState } from 'react';
+import { useRef, useMemo, useState, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Stars, useTexture, Cloud, Environment, Text3D, useGLTF } from '@react-three/drei';
 import { Bloom, EffectComposer, ChromaticAberration } from '@react-three/postprocessing';
 
+type PowerUpType = {
+  id: number;
+  name: string;
+  description: string;
+  cost: number;
+  effect: string;
+  color: string;
+  active: boolean;
+}
+
+const POWER_UPS: PowerUpType[] = [
+  {
+    id: 1,
+    name: "HELLFIRE",
+    description: "Triple explosion size",
+    cost: 1000,
+    effect: "explosion",
+    color: "#ff4400",
+    active: false
+  },
+  {
+    id: 2,
+    name: "MATRIX",
+    description: "Slow motion effects",
+    cost: 2000,
+    effect: "time",
+    color: "#00ff00",
+    active: false
+  },
+  {
+    id: 3,
+    name: "THUNDER",
+    description: "Lightning strikes",
+    cost: 3000,
+    effect: "lightning",
+    color: "#ffff00",
+    active: false
+  },
+  {
+    id: 4,
+    name: "CYBER SIGHT",
+    description: "Enhanced targeting",
+    cost: 2500,
+    effect: "targeting",
+    color: "#00ffff",
+    active: false
+  },
+  {
+    id: 5,
+    name: "GHOST MODE",
+    description: "Ethereal weapons",
+    cost: 4000,
+    effect: "ghost",
+    color: "#ff00ff",
+    active: false
+  },
+  {
+    id: 6,
+    name: "RAGE",
+    description: "Rapid fire mode",
+    cost: 3500,
+    effect: "rapid",
+    color: "#ff0000",
+    active: false
+  },
+  {
+    id: 7,
+    name: "VOID",
+    description: "Black hole attacks",
+    cost: 5000,
+    effect: "void",
+    color: "#000000",
+    active: false
+  },
+  {
+    id: 8,
+    name: "MULTI",
+    description: "Multiple beams",
+    cost: 4500,
+    effect: "multi",
+    color: "#0000ff",
+    active: false
+  },
+  {
+    id: 9,
+    name: "OMEGA",
+    description: "Ultimate power",
+    cost: 10000,
+    effect: "omega",
+    color: "#ffffff",
+    active: false
+  }
+];
+
 type WeaponAltarProps = {
   position?: [number, number, number];
+  activePowerUps?: PowerUpType[];
 };
 
 // Cool explosion effect when clicking!
-function Explosion({ position }: { position: [number, number, number] }) {
+function Explosion({ position, scale = 1, color = "#ff4400" }: { 
+  position: [number, number, number];
+  scale?: number;
+  color?: string;
+}) {
   const particles = useRef<THREE.Points>(null);
   const [visible, setVisible] = useState(true);
 
@@ -34,13 +133,13 @@ function Explosion({ position }: { position: [number, number, number] }) {
         <bufferAttribute
           attach="attributes-position"
           count={100}
-          array={Float32Array.from(Array(300).map(() => (Math.random() - 0.5) * 2))}
+          array={Float32Array.from(Array(300).map(() => (Math.random() - 0.5) * 2 * scale))}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.1}
-        color="#ff4400"
+        size={0.1 * scale}
+        color={color}
         transparent
         opacity={0.8}
         blending={THREE.AdditiveBlending}
@@ -88,7 +187,7 @@ function PoliceCar({ startPosition }: { startPosition: [number, number, number] 
 }
 
 // Interactive weapon that shoots when clicked!
-function WeaponAltar({ position = [0, 0, 0], onHit }: WeaponAltarProps & { onHit: () => void }) {
+function WeaponAltar({ position = [0, 0, 0], activePowerUps = [], onHit }: WeaponAltarProps & { onHit: () => void }) {
   const ref = useRef<THREE.Mesh>(null);
   const [shooting, setShooting] = useState(false);
   const [explosions, setExplosions] = useState<Array<[number, number, number]>>([]);
@@ -103,15 +202,29 @@ function WeaponAltar({ position = [0, 0, 0], onHit }: WeaponAltarProps & { onHit
   const handleShoot = () => {
     setShooting(true);
     onHit();
-    // Add random explosion
-    const explodePos: [number, number, number] = [
-      position[0] + (Math.random() - 0.5) * 10,
-      position[1] + Math.random() * 5,
-      position[2] + (Math.random() - 0.5) * 10
-    ];
-    setExplosions(prev => [...prev, explodePos]);
-    // Stop shooting after 1 second
-    setTimeout(() => setShooting(false), 1000);
+
+    // Apply power-up effects
+    const explosionCount = activePowerUps.some(p => p.effect === 'multi') ? 3 : 1;
+    const explosionSize = activePowerUps.some(p => p.effect === 'hellfire') ? 2 : 1;
+    const hasVoid = activePowerUps.some(p => p.effect === 'void');
+
+    for (let i = 0; i < explosionCount; i++) {
+      const explodePos: [number, number, number] = [
+        position[0] + (Math.random() - 0.5) * 10 * explosionSize,
+        position[1] + Math.random() * 5 * explosionSize,
+        position[2] + (Math.random() - 0.5) * 10 * explosionSize
+      ];
+      setExplosions(prev => [...prev, explodePos]);
+    }
+
+    // Add void effect
+    if (hasVoid) {
+      // Create black hole effect at target
+      setExplosions(prev => [...prev, [position[0], position[1] + 3, position[2]]]);
+    }
+
+    const shootDuration = activePowerUps.some(p => p.effect === 'rapid') ? 500 : 1000;
+    setTimeout(() => setShooting(false), shootDuration);
   };
 
   return (
@@ -124,29 +237,62 @@ function WeaponAltar({ position = [0, 0, 0], onHit }: WeaponAltarProps & { onHit
       >
         <boxGeometry args={[0.5, 2, 0.5]} />
         <meshStandardMaterial
-          color="#1a1a1a"
+          color={activePowerUps.some(p => p.effect === 'ghost') ? "#ffffff" : "#1a1a1a"}
           metalness={0.9}
           roughness={0.2}
-          emissive="#ff0000"
+          emissive={activePowerUps.some(p => p.effect === 'omega') ? "#ffffff" : "#ff0000"}
           emissiveIntensity={shooting ? 2 : 0.5}
+          transparent={activePowerUps.some(p => p.effect === 'ghost')}
+          opacity={activePowerUps.some(p => p.effect === 'ghost') ? 0.5 : 1}
         />
       </mesh>
-      {/* Laser beam when shooting */}
       {shooting && (
-        <mesh position={[0, 2, 0]}>
-          <cylinderGeometry args={[0.05, 0.05, 20, 8]} />
-          <meshStandardMaterial
-            color="#ff0000"
-            emissive="#ff0000"
-            emissiveIntensity={2}
-            transparent
-            opacity={0.8}
-          />
-        </mesh>
+        <>
+          {/* Main beam */}
+          <mesh position={[0, 2, 0]}>
+            <cylinderGeometry args={[0.05, 0.05, 20, 8]} />
+            <meshStandardMaterial
+              color={activePowerUps.some(p => p.effect === 'omega') ? "#ffffff" : "#ff0000"}
+              emissive={activePowerUps.some(p => p.effect === 'omega') ? "#ffffff" : "#ff0000"}
+              emissiveIntensity={2}
+              transparent
+              opacity={0.8}
+            />
+          </mesh>
+          {/* Additional beams for multi power-up */}
+          {activePowerUps.some(p => p.effect === 'multi') && (
+            <>
+              <mesh position={[0.5, 2, 0]} rotation={[0, 0, Math.PI / 12]}>
+                <cylinderGeometry args={[0.05, 0.05, 20, 8]} />
+                <meshStandardMaterial
+                  color="#ff0000"
+                  emissive="#ff0000"
+                  emissiveIntensity={2}
+                  transparent
+                  opacity={0.8}
+                />
+              </mesh>
+              <mesh position={[-0.5, 2, 0]} rotation={[0, 0, -Math.PI / 12]}>
+                <cylinderGeometry args={[0.05, 0.05, 20, 8]} />
+                <meshStandardMaterial
+                  color="#ff0000"
+                  emissive="#ff0000"
+                  emissiveIntensity={2}
+                  transparent
+                  opacity={0.8}
+                />
+              </mesh>
+            </>
+          )}
+        </>
       )}
-      {/* Show explosions */}
       {explosions.map((pos, i) => (
-        <Explosion key={i} position={pos} />
+        <Explosion 
+          key={i} 
+          position={pos}
+          scale={activePowerUps.some(p => p.effect === 'hellfire') ? 2 : 1}
+          color={activePowerUps.some(p => p.effect === 'void') ? "#000000" : "#ff4400"}
+        />
       ))}
     </group>
   );
@@ -318,7 +464,7 @@ function Rain() {
   );
 }
 
-function WarScene({ onHit }: { onHit: () => void }) {
+function WarScene({ onHit, activePowerUps }: { onHit: () => void, activePowerUps: PowerUpType[] }) {
   return (
     <>
       <ambientLight intensity={0.2} />
@@ -349,9 +495,9 @@ function WarScene({ onHit }: { onHit: () => void }) {
       <CityScape />
 
       {/* Multiple weapon altars */}
-      <WeaponAltar position={[0, 0, 0]} onHit={onHit} />
-      <WeaponAltar position={[3, 0, 3]} onHit={onHit} />
-      <WeaponAltar position={[-3, 0, -3]} onHit={onHit} />
+      <WeaponAltar position={[0, 0, 0]} onHit={onHit} activePowerUps={activePowerUps} />
+      <WeaponAltar position={[3, 0, 3]} onHit={onHit} activePowerUps={activePowerUps} />
+      <WeaponAltar position={[-3, 0, -3]} onHit={onHit} activePowerUps={activePowerUps} />
 
       <NeonCircle radius={3} />
       <NeonCircle radius={4} />
@@ -411,13 +557,35 @@ export default function RitualTemple3D() {
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
   const [message, setMessage] = useState('');
+  const [powerUps, setPowerUps] = useState<PowerUpType[]>(POWER_UPS);
+  const [slowMotion, setSlowMotion] = useState(false);
 
-  // Handle successful hits
   const onHit = () => {
-    setScore(prev => prev + (100 * (combo + 1)));
+    const basePoints = 100;
+    const comboMultiplier = combo + 1;
+    const powerUpMultiplier = powerUps.filter(p => p.active).length + 1;
+    
+    const points = basePoints * comboMultiplier * powerUpMultiplier;
+    setScore(prev => prev + points);
     setCombo(prev => prev + 1);
-    setMessage(`COMBO x${combo + 1}!`);
+    setMessage(`COMBO x${combo + 1}! (${points} pts)`);
     setTimeout(() => setMessage(''), 2000);
+  };
+
+  const togglePowerUp = (id: number) => {
+    setPowerUps(prev => prev.map(p => {
+      if (p.id === id) {
+        if (!p.active && score < p.cost) {
+          setMessage("Not enough points!");
+          return p;
+        }
+        if (!p.active) {
+          setScore(prev => prev - p.cost);
+        }
+        return { ...p, active: !p.active };
+      }
+      return p;
+    }));
   };
 
   return (
@@ -433,7 +601,7 @@ export default function RitualTemple3D() {
         camera={{ position: [0, 5, 10], fov: 45 }}
         shadows
       >
-        <WarScene onHit={onHit} />
+        <WarScene onHit={onHit} activePowerUps={powerUps.filter(p => p.active)} />
         <EffectComposer>
           <Bloom
             intensity={1.5}
@@ -443,6 +611,42 @@ export default function RitualTemple3D() {
           <ChromaticAberration offset={[0.002, 0.002]} />
         </EffectComposer>
       </Canvas>
+
+      {/* Power-ups menu */}
+      <div style={{
+        position: 'absolute',
+        right: '20px',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        background: 'rgba(0,0,0,0.8)',
+        padding: '10px',
+        borderRadius: '10px',
+        maxHeight: '80%',
+        overflowY: 'auto'
+      }}>
+        {powerUps.map(powerUp => (
+          <div
+            key={powerUp.id}
+            onClick={() => togglePowerUp(powerUp.id)}
+            style={{
+              cursor: score >= powerUp.cost || powerUp.active ? 'pointer' : 'not-allowed',
+              padding: '10px',
+              margin: '5px 0',
+              background: powerUp.active ? powerUp.color : 'rgba(255,255,255,0.1)',
+              color: powerUp.active ? '#000' : powerUp.color,
+              borderRadius: '5px',
+              opacity: score >= powerUp.cost || powerUp.active ? 1 : 0.5,
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <div style={{ fontWeight: 'bold' }}>{powerUp.name}</div>
+            <div style={{ fontSize: '12px' }}>{powerUp.description}</div>
+            <div style={{ fontSize: '10px' }}>
+              {powerUp.active ? 'ACTIVE' : `Cost: ${powerUp.cost.toLocaleString()} pts`}
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Cool game UI */}
       <div style={{
