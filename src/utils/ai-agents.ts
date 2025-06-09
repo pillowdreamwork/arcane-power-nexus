@@ -1,3 +1,4 @@
+
 /**
  * AI Agent system for automated content management and quality assurance
  */
@@ -326,8 +327,8 @@ class AIAgentSystem {
   private checkLoadTimes() {
     const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
     
-    if (navigation) {
-      const loadTime = navigation.loadEventEnd - navigation.navigationStart;
+    if (navigation && navigation.loadEventEnd && navigation.fetchStart) {
+      const loadTime = navigation.loadEventEnd - navigation.fetchStart;
       
       if (loadTime > 3000) {
         this.addSuggestion({

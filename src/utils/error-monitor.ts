@@ -1,3 +1,4 @@
+
 /**
  * Advanced error monitoring and auto-fixing system
  */
@@ -72,15 +73,18 @@ class ErrorMonitor {
       setTimeout(() => {
         const perfData = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
         
-        if (perfData.loadEventEnd - perfData.navigationStart > 5000) {
-          this.logError({
-            message: 'Slow page load detected',
-            severity: 'medium',
-            context: {
-              loadTime: perfData.loadEventEnd - perfData.navigationStart,
-              domContentLoaded: perfData.domContentLoadedEventEnd - perfData.navigationStart,
-            }
-          });
+        if (perfData && perfData.loadEventEnd && perfData.fetchStart) {
+          const loadTime = perfData.loadEventEnd - perfData.fetchStart;
+          if (loadTime > 5000) {
+            this.logError({
+              message: 'Slow page load detected',
+              severity: 'medium',
+              context: {
+                loadTime,
+                domContentLoaded: perfData.domContentLoadedEventEnd ? perfData.domContentLoadedEventEnd - perfData.fetchStart : 0,
+              }
+            });
+          }
         }
       }, 1000);
     });
