@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -55,16 +54,9 @@ const Liberation = () => {
   return (
     <GrimoireLayout>
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center mb-8">
-          <Triangle className="h-8 w-8 mr-3 text-[#EF4444] grimoire-glow" />
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-grimoire-primary grimoire-text-shadow">
-              Psychic Prison Break
-            </h1>
-            <p className="text-grimoire-foreground/80">
-              Liberation system for shattering energetic constraints
-            </p>
-          </div>
+        <h1 className="text-3xl font-bold text-grimoire-primary mb-4">Liberation System</h1>
+        <div className="mb-6">
+          <p className="text-grimoire-foreground/80">Step-by-step guide to psychic liberation.</p>
         </div>
 
         <div className="mb-8">

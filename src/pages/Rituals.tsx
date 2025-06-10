@@ -1,15 +1,45 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Circle } from "lucide-react";
+import { Circle, Info } from "lucide-react";
+import RitualLibrary from "@/components/home/RitualLibrary";
+import { ritualCards } from "@/components/home/ritualData";
+import RitualEnvironment from "@/components/rituals/RitualEnvironment";
+import RitualController from "@/components/rituals/RitualController";
+import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+
+interface RitualSpace {
+  name: string;
+  description: string;
+  elements: string[];
+  activeEffect: string;
+}
 
 const Rituals = () => {
   const [activeSpace, setActiveSpace] = useState("circle");
-  
-  const ritualSpaces = {
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [energyLevel, setEnergyLevel] = useState(20);
+  const [isRitualActive, setIsRitualActive] = useState(false);
+  const [selectedRitual, setSelectedRitual] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  // Effect to simulate ambient energy accumulation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (energyLevel < 100 && !isRitualActive) {
+        setEnergyLevel(prev => Math.min(prev + 1, 100));
+      }
+    }, 10000);
+    
+    return () => clearInterval(interval);
+  }, [energyLevel, isRitualActive]);
+
+  const ritualSpaces: Record<string, RitualSpace> = {
     circle: {
       name: "Circle Chamber",
       description: "Traditional protective boundary for entity work",
@@ -41,192 +71,175 @@ const Rituals = () => {
     "Astral Travel", "Divination", "Communion", "Binding"
   ];
 
+  // Filter rituals by type if selectedType is set (for demo, filter by difficulty)
+  const filteredRituals = selectedType
+    ? ritualCards.filter(r => r.difficulty.toLowerCase().includes(selectedType.toLowerCase()))
+    : ritualCards;
+
+  const handleActivateRitual = () => {
+    setIsRitualActive(true);
+    toast({
+      title: "Ritual Space Activated",
+      description: `The ${ritualSpaces[activeSpace].name} is now energetically active.`,
+    });
+  };
+
   return (
     <GrimoireLayout>
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center mb-8">
-          <Circle className="h-8 w-8 mr-3 text-grimoire-primary grimoire-glow" />
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-grimoire-primary grimoire-text-shadow">
-              Virtual Ritual Spaces
-            </h1>
-            <p className="text-grimoire-foreground/80">
-              Customizable chambers for mystical workings
-            </p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-3xl font-bold text-grimoire-primary mb-2">Virtual Ritual Spaces</h1>
+          <div className="flex flex-wrap gap-2 mb-6">
+            {Object.keys(ritualSpaces).map((space) => (
+              <Button 
+                key={space}
+                variant={activeSpace === space ? "default" : "outline"}
+                className={`text-sm px-3 py-2 ${activeSpace === space ? 'bg-grimoire-primary animate-pulse-subtle' : ''}`}
+                onClick={() => {
+                  setActiveSpace(space);
+                  setIsRitualActive(false);
+                }}
+              >
+                {ritualSpaces[space].name.split(" ")[0]}
+              </Button>
+            ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <div className="lg:col-span-2">
-            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border h-full relative overflow-hidden">
-              <div className="absolute inset-0 sacred-pattern opacity-30"></div>
-              <CardHeader>
-                <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
-                  {ritualSpaces[activeSpace as keyof typeof ritualSpaces].name}
-                </CardTitle>
-                <CardDescription className="text-grimoire-foreground/70">
-                  {ritualSpaces[activeSpace as keyof typeof ritualSpaces].description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="aspect-video bg-grimoire-background rounded-md border border-grimoire-border flex items-center justify-center relative overflow-hidden">
-                  {/* Ritual space visualization would go here */}
-                  <div className={`absolute inset-0 ${activeSpace === 'circle' ? 'flex items-center justify-center' : 'hidden'}`}>
-                    <div className="relative">
-                      <div className="w-64 h-64 rounded-full border-2 border-grimoire-primary animate-pulse-subtle"></div>
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-grimoire-primary/70"></div>
-                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full"></div>
-                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-blue-500 rounded-full"></div>
-                      <div className="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/2 w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <div className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 w-3 h-3 bg-green-500 rounded-full"></div>
-                    </div>
-                  </div>
-
-                  <div className={`absolute inset-0 ${activeSpace === 'triangle' ? 'flex items-center justify-center' : 'hidden'}`}>
-                    <div className="relative">
-                      <div className="w-0 h-0 border-l-[120px] border-r-[120px] border-b-[208px] border-l-transparent border-r-transparent border-b-grimoire-primary/30"></div>
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/4 w-20 h-20">
-                        <svg viewBox="0 0 100 100" className="w-full h-full text-grimoire-primary/70">
-                          <path d="M50 10 L90 90 L10 90 Z" fill="none" stroke="currentColor" strokeWidth="2" />
-                          <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" strokeWidth="1" />
-                          <path d="M50 30 L50 70 M30 50 L70 50" stroke="currentColor" strokeWidth="1" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={`absolute inset-0 ${activeSpace === 'mirror' ? 'flex items-center justify-center' : 'hidden'}`}>
-                    <div className="relative w-48 h-64 bg-black/80 border border-gray-700 rounded-md overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-black/40"></div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-24 h-24 bg-purple-500/10 rounded-full animate-pulse-subtle"></div>
-                      </div>
-                      <div className="absolute bottom-4 w-full flex justify-center">
-                        <div className="h-1 w-16 bg-grimoire-primary/30 rounded-full"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={`absolute inset-0 ${activeSpace === 'yajna' ? 'flex items-center justify-center' : 'hidden'}`}>
-                    <div className="relative">
-                      <div className="w-32 h-32 bg-red-900/30 rounded-full flex items-center justify-center overflow-hidden">
-                        <div className="absolute w-24 h-24">
-                          <div className="w-full h-full flex flex-wrap">
-                            <div className="w-1/2 h-1/2 bg-orange-400/30 animate-pulse"></div>
-                            <div className="w-1/2 h-1/2 bg-yellow-400/30 animate-pulse delay-100"></div>
-                            <div className="w-1/2 h-1/2 bg-orange-600/30 animate-pulse delay-300"></div>
-                            <div className="w-1/2 h-1/2 bg-red-600/30 animate-pulse delay-200"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="absolute -bottom-8 w-48 h-2 bg-gradient-to-r from-transparent via-grimoire-primary/30 to-transparent"></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="text-grimoire-foreground font-medium mb-3">Elements:</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {ritualSpaces[activeSpace as keyof typeof ritualSpaces].elements.map((element, index) => (
-                      <span 
-                        key={index} 
-                        className="px-3 py-1 bg-grimoire-background border border-grimoire-border rounded-full text-sm"
-                      >
-                        {element}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="text-grimoire-foreground font-medium mb-3">Active Effect:</h3>
-                  <p className="text-grimoire-foreground/90">
-                    {ritualSpaces[activeSpace as keyof typeof ritualSpaces].activeEffect}
-                  </p>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-end">
-                <Button>Enter Space</Button>
-              </CardFooter>
-            </Card>
+            <RitualEnvironment 
+              active={isRitualActive} 
+              energyLevel={energyLevel} 
+              ritualType={activeSpace}
+              onEnergyChange={setEnergyLevel}
+              className="mb-4"
+            />
+            
+            <div className="flex flex-wrap gap-2 justify-between items-center">
+              <div className="text-sm text-grimoire-foreground/70">
+                Energy Level: {energyLevel}/100
+              </div>
+              {!isRitualActive ? (
+                <Button 
+                  onClick={handleActivateRitual}
+                  className="bg-grimoire-primary hover:bg-grimoire-primary/90"
+                >
+                  <Circle className="h-4 w-4 mr-2" />
+                  Activate {ritualSpaces[activeSpace].name}
+                </Button>
+              ) : (
+                <Button 
+                  onClick={() => setIsRitualActive(false)}
+                  variant="outline"
+                >
+                  Deactivate
+                </Button>
+              )}
+            </div>
           </div>
 
-          <div className="space-y-6">
-            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border">
-              <CardHeader>
-                <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
-                  Select Ritual Space
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  {Object.keys(ritualSpaces).map((space) => (
-                    <Button 
-                      key={space}
-                      variant={activeSpace === space ? "default" : "outline"}
-                      className={`h-auto py-4 ${activeSpace === space ? "bg-grimoire-primary" : ""}`}
-                      onClick={() => setActiveSpace(space)}
-                    >
-                      {(ritualSpaces as any)[space].name.split(" ")[0]}
-                    </Button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border">
-              <CardHeader>
-                <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
-                  Ritual Types
-                </CardTitle>
-                <CardDescription className="text-grimoire-foreground/70">
-                  Select your working
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {ritualTypes.map((type) => (
-                    <span 
-                      key={type} 
-                      className="px-3 py-1 bg-grimoire-background border border-grimoire-border rounded-full text-sm cursor-pointer hover:border-grimoire-primary/70 transition-colors"
-                    >
-                      {type}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border">
-              <CardHeader>
-                <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
-                  Ritual Schedule
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-grimoire-foreground">Full Moon Invocation</p>
-                    <p className="text-sm text-grimoire-foreground/70">2 days from now</p>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    Set Reminder
+          <motion.div 
+            className="bg-grimoire-muted border-grimoire-border rounded-lg p-4"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <CardHeader>
+              <CardTitle className="text-grimoire-foreground">{ritualSpaces[activeSpace].name}</CardTitle>
+              <CardDescription>{ritualSpaces[activeSpace].description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {ritualSpaces[activeSpace].elements.map((element, index) => (
+                  <span key={index} className="px-2 py-1 bg-grimoire-background border rounded text-xs">{element}</span>
+                ))}
+              </div>
+              <div className="text-sm text-grimoire-foreground/80 mt-4">Effect: {ritualSpaces[activeSpace].activeEffect}</div>
+              
+              <Separator className="my-4" />
+              
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button variant="outline" size="sm" className="w-full">
+                    <Info className="h-4 w-4 mr-2" />
+                    Historical Context
                   </Button>
-                </div>
-                <Separator className="bg-grimoire-border" />
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="text-grimoire-foreground">Spring Equinox</p>
-                    <p className="text-sm text-grimoire-foreground/70">March 20</p>
+                </DrawerTrigger>
+                <DrawerContent className="bg-grimoire-background text-grimoire-foreground p-4">
+                  <DrawerHeader>
+                    <DrawerTitle>About {ritualSpaces[activeSpace].name}</DrawerTitle>
+                    <DrawerDescription>Historical and practical context</DrawerDescription>
+                  </DrawerHeader>
+                  <div className="p-4 space-y-4 text-sm">
+                    {activeSpace === "circle" && (
+                      <>
+                        <p>The magic circle has been used in ritual practices across numerous traditions for millennia. It represents completeness, infinity, and protection - a boundary between the practitioner and external forces.</p>
+                        <p>In Western esoteric traditions, the circle is typically cast with a ritual blade or wand, and may contain various symbols of power, including pentagrams, divine names, and planetary sigils.</p>
+                        <p>When working with entities or energies, the circle serves as both container and barrier, allowing controlled interaction while maintaining separation between realms.</p>
+                      </>
+                    )}
+                    
+                    {activeSpace === "triangle" && (
+                      <>
+                        <p>The triangle of manifestation is particularly prominent in Solomonic traditions of ceremonial magic. It represents the threefold nature of creation and serves as a focusing lens for manifestation work.</p>
+                        <p>Traditionally placed outside the circle, the triangle creates a confined space where entities can be summoned and communicated with safely. The three points often represent the trinity of force relevant to the practitioner's tradition.</p>
+                        <p>In modern practice, the triangle is used for focused intent work, sigil activation, and as a geometric amplifier for directed will.</p>
+                      </>
+                    )}
+                    
+                    {activeSpace === "mirror" && (
+                      <>
+                        <p>Scrying mirrors, often called "black mirrors," have been used for divination since ancient times. The dark reflective surface creates a liminal space - a threshold between worlds.</p>
+                        <p>In traditional practice, these mirrors were made of obsidian, polished stone, or dark glass backed with black material. The reflective yet absorptive quality creates an ideal surface for the mind to project images upon.</p>
+                        <p>Mirror work is particularly effective for communication with inner aspects of consciousness, ancestral connection, and glimpsing potential futures.</p>
+                      </>
+                    )}
+                    
+                    {activeSpace === "yajna" && (
+                      <>
+                        <p>The fire ritual, or Yajna, has been central to Vedic practice for over 3,000 years. The sacred fire (agni) acts as messenger between the human and divine realms.</p>
+                        <p>Traditional offerings include clarified butter (ghee), grains, and other substances, each with specific symbolic and energetic properties. The transformation of matter through fire represents spiritual transformation.</p>
+                        <p>Modern adaptations focus on the transmutational aspects of the practice - using fire as a symbol of purification and spiritual alchemy.</p>
+                      </>
+                    )}
                   </div>
-                  <Button variant="outline" size="sm">
-                    Set Reminder
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </DrawerContent>
+              </Drawer>
+            </CardContent>
+          </motion.div>
         </div>
+        
+        {isRitualActive && (
+          <motion.div 
+            className="mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <RitualController 
+              ritualType={activeSpace} 
+              energyLevel={energyLevel}
+              onEnergyChange={setEnergyLevel}
+            />
+          </motion.div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <h2 className="text-xl font-semibold text-grimoire-primary mb-2">Ritual Library</h2>
+          <p className="text-grimoire-foreground/80 mb-4">Select a ritual to perform in your activated space</p>
+          <div className="mb-8">
+            <RitualLibrary />
+          </div>
+        </motion.div>
       </div>
     </GrimoireLayout>
   );

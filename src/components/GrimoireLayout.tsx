@@ -2,6 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import GrimoireSidebar from "./GrimoireSidebar";
+import EnergyParticles from "./EnergyParticles";
+import RevealOnScroll from "./RevealOnScroll";
+import SystemStatus from "./SystemStatus";
+import { motion } from "framer-motion";
+import SpiritualProgress from "./SpiritualProgress";
 
 interface GrimoireLayoutProps {
   children: React.ReactNode;
@@ -24,6 +29,9 @@ const GrimoireLayout: React.FC<GrimoireLayoutProps> = ({ children }) => {
       <div className="flex w-full min-h-screen bg-grimoire-background">
         <GrimoireSidebar />
         <main className="flex-1 overflow-auto yantra-background relative">
+          {/* Energy Particle System - Mystical animated energy field */}
+          <EnergyParticles />
+          
           {/* Ambient mystical effects */}
           <div className="fixed inset-0 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-900/5 to-indigo-900/5"></div>
@@ -33,8 +41,21 @@ const GrimoireLayout: React.FC<GrimoireLayoutProps> = ({ children }) => {
           
           {/* Content */}
           <div className="relative z-10">
-            {children}
+            <SpiritualProgress />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98, y: 24 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: -24 }}
+              transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
+            >
+              <RevealOnScroll>
+                {children}
+              </RevealOnScroll>
+            </motion.div>
           </div>
+          
+          {/* System Status - Only show in development or for admin users */}
+          {process.env.NODE_ENV === 'development' && <SystemStatus />}
         </main>
       </div>
     </SidebarProvider>
