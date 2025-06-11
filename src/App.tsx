@@ -15,7 +15,7 @@ import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import Practice from "./pages/Practice";
 import Profile from "./pages/Profile";
-import RitualTemple3D from './components/RitualTemple3D';
+import SimpleRitualTemple3D from './components/SimpleRitualTemple3D';
 import { RitualEngine, sampleRitual } from './lib/ritualEngine';
 import { TantricMentorAI } from './lib/tantricMentorAI';
 import { encryptRitualData, decryptRitualData } from './lib/encryption';
@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
           severity: 'medium',
           context: { failureCount, queryKey: error?.queryKey }
         });
-        
+
         // Retry up to 3 times for network errors
         if (failureCount < 3 && error?.name === 'NetworkError') {
           return true;
@@ -89,7 +89,7 @@ function RitualExperience() {
 
   return (
     <div className="p-6 flex flex-col gap-6 items-center">
-      <RitualTemple3D />
+      <SimpleRitualTemple3D />
       <div className="bg-black/70 text-white p-4 rounded-xl w-full max-w-xl flex flex-col gap-2">
         <div className="flex justify-between items-center">
           <span className="font-bold text-lg">{ritual.getRitual().name}</span>
@@ -113,7 +113,7 @@ const App = () => {
   useEffect(() => {
     // Initialize monitoring systems
     console.log('🚀 Arcane Power Nexus initialized with advanced monitoring');
-    
+
     // Start AI agents after a short delay to allow the app to fully load
     setTimeout(() => {
       aiAgents.getSystemStatus();
