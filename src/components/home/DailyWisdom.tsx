@@ -160,7 +160,7 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
   };
 
   return (
-    <Card className={`bg-grimoire-muted relative overflow-hidden ${className}`}>
+    <Card className={`bg-grimoire-muted relative overflow-hidden border border-grimoire-border ${className}`}>
       {/* Animated background pattern */}
       <motion.div 
         className="absolute inset-0 sacred-pattern opacity-10"
@@ -238,7 +238,7 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
               <Star className="h-4 w-4 text-grimoire-primary grimoire-glow" />
             )}
           </motion.div>
-          <h3 className="text-sm font-medium">Today's Wisdom</h3>
+          <h3 className="text-sm font-semibold text-grimoire-foreground font-inter">Today's Wisdom</h3>
           <Button 
             variant="ghost" 
             size="sm" 
@@ -247,7 +247,7 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
             disabled={isRefreshing}
           >
             <RefreshCw 
-              className={`h-4 w-4 text-grimoire-foreground/70 ${isRefreshing ? 'animate-spin' : ''}`} 
+              className={`h-4 w-4 text-grimoire-foreground/70 ${isRefreshing ? 'animate-spin' : ''} hover:text-grimoire-primary transition-colors`}
             />
           </Button>
         </div>
@@ -281,7 +281,7 @@ const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
         
         {/* Subtle shimmer effect */}
         <motion.div 
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0"
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-grimoire-foreground/10 to-transparent opacity-0"
           animate={{
             x: ['-100%', '100%'],
             opacity: [0, 0.05, 0],

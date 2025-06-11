@@ -107,7 +107,7 @@ const SearchBar: React.FC<{ className?: string }> = ({ className = "" }) => {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             onFocus={() => setIsFocused(true)}
-            className="bg-grimoire-background pr-8"
+            className="bg-grimoire-background pr-8 border border-grimoire-border focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 text-grimoire-foreground"
           />
           {searchQuery && (
             <button 
@@ -118,8 +118,12 @@ const SearchBar: React.FC<{ className?: string }> = ({ className = "" }) => {
             </button>
           )}
         </div>
-        <Button variant="outline" onClick={handleSearch}>
-          <Search className="h-4 w-4" />
+        <Button
+          variant="outline"
+          onClick={handleSearch}
+          className="border-grimoire-primary/50 text-grimoire-primary hover:bg-grimoire-primary/10 hover:border-grimoire-primary hover:text-grimoire-primary"
+        >
+          <Search className="h-4 w-4 text-grimoire-primary" />
         </Button>
       </div>
       
@@ -135,11 +139,11 @@ const SearchBar: React.FC<{ className?: string }> = ({ className = "" }) => {
           >
             {!searchQuery && recentSearches.length > 0 && (
               <div className="p-2">
-                <div className="text-xs text-grimoire-foreground/60 px-2 py-1">Recent Searches</div>
+                <div className="text-xs text-grimoire-foreground/70 px-2 py-1 font-medium">Recent Searches</div>
                 {recentSearches.map((recent, idx) => (
                   <div
                     key={idx}
-                    className="px-3 py-2 text-sm hover:bg-grimoire-muted cursor-pointer rounded flex items-center"
+                    className="px-3 py-2 text-sm text-grimoire-foreground hover:bg-grimoire-muted cursor-pointer rounded flex items-center"
                     onClick={() => handleSelectSuggestion(recent)}
                   >
                     <Search className="h-3 w-3 mr-2 text-grimoire-foreground/60" />
@@ -151,11 +155,11 @@ const SearchBar: React.FC<{ className?: string }> = ({ className = "" }) => {
             
             {suggestions.length > 0 && (
               <div className="p-2">
-                <div className="text-xs text-grimoire-foreground/60 px-2 py-1">Suggestions</div>
+                <div className="text-xs text-grimoire-foreground/70 px-2 py-1 font-medium">Suggestions</div>
                 {suggestions.map((suggestion, idx) => (
                   <motion.div
                     key={idx}
-                    className="px-3 py-2 text-sm hover:bg-grimoire-muted cursor-pointer rounded flex items-center justify-between group"
+                    className="px-3 py-2 text-sm text-grimoire-foreground hover:bg-grimoire-muted cursor-pointer rounded flex items-center justify-between group"
                     onClick={() => handleSelectSuggestion(suggestion)}
                     initial={{ opacity: 0, x: -5 }}
                     animate={{ opacity: 1, x: 0 }}
