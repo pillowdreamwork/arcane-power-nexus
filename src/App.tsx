@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
           severity: 'medium',
           context: { failureCount, queryKey: error?.queryKey }
         });
-
+        
         // Retry up to 3 times for network errors
         if (failureCount < 3 && error?.name === 'NetworkError') {
           return true;
@@ -113,7 +113,7 @@ const App = () => {
   useEffect(() => {
     // Initialize monitoring systems
     console.log('🚀 Arcane Power Nexus initialized with advanced monitoring');
-
+    
     // Start AI agents after a short delay to allow the app to fully load
     setTimeout(() => {
       aiAgents.getSystemStatus();

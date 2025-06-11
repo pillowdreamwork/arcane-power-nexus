@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import SimpleApp from './SimpleApp.tsx';
+import App from './App.tsx'; // Changed from SimpleApp
 import './index.css';
 import './fonts.css';
 import { register as registerServiceWorker } from './registerServiceWorker';
@@ -12,7 +11,7 @@ const root = createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <SimpleApp />
+      <App /> {/* Changed from SimpleApp */}
     </ErrorBoundary>
   </React.StrictMode>
 );

@@ -42,7 +42,7 @@
 | Environment         | URL                    | Status    | Description          |
 | ------------------- | ---------------------- | --------- | -------------------- |
 | **Development**     | http://localhost:8080  | 🟢 ACTIVE | Local dev server     |
-| **Network**         | http://10.0.3.121:8080 | 🟢 ACTIVE | LAN accessible       |
+| **Network**         | http://10.0.2.129:8080 | 🟢 ACTIVE | LAN accessible       |
 | **VS Code Browser** | Simple Browser Tab     | 🟢 OPEN   | Integrated preview   |
 | **Production**      | _Deploy to set_        | ⚪ READY  | Ready for deployment |
 

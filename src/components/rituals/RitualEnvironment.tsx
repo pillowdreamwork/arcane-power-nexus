@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text, Stars, PerspectiveCamera } from "@react-three/drei";
@@ -48,8 +47,8 @@ const RitualCircle = ({ active, energy, onInteract }: { active: boolean, energy:
           emissiveIntensity={active ? 2 : 0.5}
           roughness={0.4}
           metalness={0.8}
-          opacity={0.9}
           transparent={true}
+          opacity={0.9}
         />
       </mesh>
       
@@ -66,8 +65,8 @@ const RitualCircle = ({ active, energy, onInteract }: { active: boolean, energy:
           emissiveIntensity={active ? 1 : 0.3}
           roughness={0.5}
           metalness={0.7}
-          opacity={0.8}
           transparent={true}
+          opacity={0.8}
         />
       </mesh>
       
@@ -127,7 +126,8 @@ const RitualScene = ({
   onEnergyChange: (value: number) => void 
 }) => {
   const { toast } = useToast();
-  
+  const [altarItems, setAltarItems] = useState<string[]>([]);
+
   const handleInteract = () => {
     if (!active) return;
     
@@ -144,6 +144,20 @@ const RitualScene = ({
         description: "Energy channeled into the ritual circle",
       });
     }
+  };
+
+  const handleAltarInteraction = (item: string) => {
+    if (!active) return;
+    setAltarItems(prev => {
+      if (prev.includes(item)) {
+        toast({ title: `${item} already on altar.`, variant: "destructive" });
+        return prev;
+      }
+      toast({ title: `Placed ${item} on the altar.`});
+      return [...prev, item];
+    });
+    // Potentially trigger other effects based on item
+    onEnergyChange(Math.min(energyLevel + 5, 100)); 
   };
   
   return (
@@ -177,6 +191,34 @@ const RitualScene = ({
       {/* Main ritual elements */}
       <RitualCircle active={active} energy={energyLevel} onInteract={handleInteract} />
       
+      {/* Interactive Altar */}
+      <mesh 
+        position={[0, 0.5, -3]} 
+        onClick={() => handleAltarInteraction("Crystal Skull")}
+        onPointerOver={() => document.body.style.cursor = 'pointer'}
+        onPointerOut={() => document.body.style.cursor = 'default'}
+        castShadow
+      >
+        <boxGeometry args={[1, 1, 0.5]} />
+        <meshStandardMaterial color={altarItems.includes("Crystal Skull") ? "#A78BFA" : "#4a0e90"} />
+        <Text position={[0, 0.6, 0]} fontSize={0.2} color="white" anchorX="center">
+          {altarItems.includes("Crystal Skull") ? "Skull Active" : "Place Skull"}
+        </Text>
+      </mesh>
+      <mesh 
+        position={[1.5, 0.5, -3]} 
+        onClick={() => handleAltarInteraction("Grimoire")}
+        onPointerOver={() => document.body.style.cursor = 'pointer'}
+        onPointerOut={() => document.body.style.cursor = 'default'}
+        castShadow
+      >
+        <boxGeometry args={[0.8, 0.3, 1.2]} />
+        <meshStandardMaterial color={altarItems.includes("Grimoire") ? "#facc15" : "#78350f"} />
+        <Text position={[0, 0.2, 0]} fontSize={0.2} color="white" anchorX="center">
+          {altarItems.includes("Grimoire") ? "Grimoire Open" : "Place Grimoire"}
+        </Text>
+      </mesh>
+
       {/* Ritual specific elements */}
       {ritualType === "circle" && (
         <group>
