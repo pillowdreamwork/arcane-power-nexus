@@ -1,298 +1,112 @@
 
-import React, { useState, useEffect, useRef } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Star, RefreshCw, Sparkles } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import { RefreshCw, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
-const wisdomQuotes = [
-  {
-    quote: "In stillness, find your power. In silence, hear your truth.",
-    guidance: "Focus on inner clarity and purpose today."
-  },
-  {
-    quote: "The universe speaks in symbols and synchronicities. Learn to listen.",
-    guidance: "Pay attention to recurring patterns in your experience."
-  },
-  {
-    quote: "Your thoughts are echoes through the void. Choose them with precision.",
-    guidance: "Practice disciplined thinking and deliberate intent."
-  },
-  {
-    quote: "Between the worlds of form and formlessness, you are the bridge.",
-    guidance: "Work on integrating your spiritual insights into material reality."
-  },
-  {
-    quote: "The boundary between magic and reality exists only in perception.",
-    guidance: "Challenge your assumptions about what's possible."
-  },
-  {
-    quote: "To know, to will, to dare, and to keep silent - these are the keys.",
-    guidance: "Balance action with discretion in your practice today."
-  },
-  {
-    quote: "The shadows you resist contain your greatest power.",
-    guidance: "Look honestly at what you've been avoiding."
-  },
-  {
-    quote: "Reality is plastic to the will that understands its true nature.",
-    guidance: "Examine the beliefs that shape your experience."
-  },
-  {
-    quote: "The path is revealed one step at a time, not all at once.",
-    guidance: "Trust the unfolding process rather than demanding complete clarity."
-  },
-  {
-    quote: "Your attention is your most potent magical tool. Direct it wisely.",
-    guidance: "Notice where your focus habitually goes and realign if necessary."
-  }
-];
-
-const DailyWisdom: React.FC<{ className?: string }> = ({ className = "" }) => {
-  const [currentWisdom, setCurrentWisdom] = useState(wisdomQuotes[0]);
+const DailyWisdom = () => {
+  const [currentWisdom, setCurrentWisdom] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isRevealing, setIsRevealing] = useState(true);
-  const [energyLevel, setEnergyLevel] = useState(0);
-  const [isGlowing, setIsGlowing] = useState(false);
-  const quoteRef = useRef<HTMLParagraphElement>(null);
-  
-  useEffect(() => {
-    // Initial random wisdom
-    const todayIndex = new Date().getDate() % wisdomQuotes.length;
-    setCurrentWisdom(wisdomQuotes[todayIndex]);
-    
-    // Animation timing
-    const timer = setTimeout(() => {
-      setIsRevealing(false);
-      
-      // Start energy buildup
-      const energyTimer = setInterval(() => {
-        setEnergyLevel(prev => {
-          if (prev >= 100) {
-            clearInterval(energyTimer);
-            setIsGlowing(true);
-            return 100;
-          }
-          return prev + 1;
-        });
-      }, 100);
-      
-      return () => {
-        clearInterval(energyTimer);
-      };
-    }, 1000);
-    
-    return () => clearTimeout(timer);
-  }, []);
-  
-  // Automatic glow pulsation
-  useEffect(() => {
-    if (isGlowing) {
-      const pulseInterval = setInterval(() => {
-        setIsGlowing(prev => !prev);
-      }, 3000);
-      
-      return () => clearInterval(pulseInterval);
+
+  const wisdomQuotes = [
+    {
+      text: "The cave you fear to enter holds the treasure you seek.",
+      source: "Joseph Campbell",
+      reflection: "Often our greatest growth comes from facing what we avoid most."
+    },
+    {
+      text: "Be yourself; everyone else is already taken.",
+      source: "Oscar Wilde",
+      reflection: "Authenticity is the foundation of all meaningful spiritual practice."
+    },
+    {
+      text: "The only way out is through.",
+      source: "Robert Frost",
+      reflection: "Transformation requires us to move through difficulty, not around it."
+    },
+    {
+      text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
+      source: "Ralph Waldo Emerson",
+      reflection: "Our inner strength is the source of all external change."
+    },
+    {
+      text: "The wound is the place where the Light enters you.",
+      source: "Rumi",
+      reflection: "Our struggles often become our greatest sources of wisdom and compassion."
+    },
+    {
+      text: "Yesterday I was clever, so I wanted to change the world. Today I am wise, so I am changing myself.",
+      source: "Rumi",
+      reflection: "True transformation begins within and radiates outward."
     }
-  }, [isGlowing]);
+  ];
 
-  const getNewWisdom = () => {
+  const handleRefresh = () => {
     setIsRefreshing(true);
-    setIsRevealing(true);
-    setIsGlowing(false);
-    setEnergyLevel(0);
-    
-    // Simulating energetic connection
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * wisdomQuotes.length);
-      setCurrentWisdom(wisdomQuotes[randomIndex]);
+      setCurrentWisdom((prev) => (prev + 1) % wisdomQuotes.length);
       setIsRefreshing(false);
-      
-      setTimeout(() => {
-        setIsRevealing(false);
-        
-        // Restart energy buildup
-        const energyTimer = setInterval(() => {
-          setEnergyLevel(prev => {
-            if (prev >= 100) {
-              clearInterval(energyTimer);
-              setIsGlowing(true);
-              return 100;
-            }
-            return prev + 1;
-          });
-        }, 50);
-      }, 1000);
-    }, 1200);
+    }, 500);
   };
 
-  // Particle effect for wisdom activation
-  const WisdomParticles = () => {
-    return isGlowing ? (
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {Array.from({ length: 15 }).map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-grimoire-primary/80"
-            initial={{ 
-              x: quoteRef.current ? quoteRef.current.offsetWidth / 2 : 100, 
-              y: quoteRef.current ? quoteRef.current.offsetHeight / 2 : 50,
-              scale: 0,
-              opacity: 1 
-            }}
-            animate={{ 
-              x: [null, (Math.random() - 0.5) * 300], 
-              y: [null, (Math.random() - 0.5) * 150],
-              scale: [0, 2 + Math.random() * 2],
-              opacity: [1, 0]
-            }}
-            transition={{ 
-              duration: 2 + Math.random() * 3,
-              ease: "easeOut",
-              repeat: Infinity,
-              repeatType: "loop",
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
-      </div>
-    ) : null;
-  };
+  const currentQuote = wisdomQuotes[currentWisdom];
 
   return (
-    <Card className={`bg-grimoire-muted relative overflow-hidden ${className}`}>
-      {/* Animated background pattern */}
-      <motion.div 
-        className="absolute inset-0 sacred-pattern opacity-10"
-        animate={{
-          backgroundPosition: ["0% 0%", "100% 100%"],
-        }}
-        transition={{
-          duration: 120,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "reverse"
-        }}
-      />
-      
-      {/* Energetic pulse effect */}
-      <motion.div
-        className="absolute inset-0 bg-grimoire-primary/5 rounded-lg"
-        animate={{
-          scale: [1, 1.05, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{
-          duration: 4,
-          ease: "easeInOut",
-          repeat: Infinity,
-          repeatType: "reverse",
-        }}
-      />
-      
-      {/* Wisdom energy progress */}
-      <motion.div 
-        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-grimoire-primary via-purple-400 to-grimoire-primary"
-        style={{ width: `${energyLevel}%`, opacity: energyLevel > 0 ? 0.6 : 0 }}
-      />
-      
-      {/* Wisdom activation halo */}
-      <AnimatePresence>
-        {isGlowing && (
-          <motion.div 
-            className="absolute inset-0 rounded-lg"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ 
-              opacity: [0, 0.6, 0],
-              scale: [0.8, 1.2, 1.5],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-            }}
-            style={{
-              background: "radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(139,92,246,0) 70%)"
-            }}
-          />
-        )}
-      </AnimatePresence>
-      
-      <WisdomParticles />
-      
-      <CardContent className="p-4 relative z-10">
-        <div className="flex items-center gap-2 mb-3">
-          <motion.div
-            animate={{
-              rotate: isRefreshing ? 360 : 0,
-              scale: isRefreshing ? [1, 1.2, 1] : isGlowing ? [1, 1.2, 1] : 1,
-            }}
-            transition={{ 
-              duration: isRefreshing ? 1.2 : 2, 
-              repeat: isGlowing && !isRefreshing ? Infinity : 0,
-              repeatType: "reverse"
-            }}
-          >
-            {isGlowing ? (
-              <Sparkles className="h-4 w-4 text-yellow-400 grimoire-glow" />
-            ) : (
-              <Star className="h-4 w-4 text-grimoire-primary grimoire-glow" />
-            )}
-          </motion.div>
-          <h3 className="text-sm font-medium">Today's Wisdom</h3>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="ml-auto h-8 w-8 p-0" 
-            onClick={getNewWisdom}
+    <Card className="bg-gradient-to-br from-grimoire-primary/5 to-grimoire-primary/10 border-grimoire-primary/20">
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-grimoire-primary" />
+            <CardTitle className="text-lg text-grimoire-foreground">Daily Wisdom</CardTitle>
+          </div>
+          <Button
+            onClick={handleRefresh}
+            variant="ghost"
+            size="sm"
             disabled={isRefreshing}
+            className="h-8 w-8 p-0"
           >
-            <RefreshCw 
-              className={`h-4 w-4 text-grimoire-foreground/70 ${isRefreshing ? 'animate-spin' : ''}`} 
-            />
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           </Button>
         </div>
-        
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentWisdom.quote}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ 
-              opacity: isRevealing ? [0, 1] : 1,
-              y: isRevealing ? [10, 0] : 0,
-            }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.p 
-              ref={quoteRef}
-              className={`text-sm italic mb-3 ${isGlowing ? 'text-grimoire-primary font-medium grimoire-glow' : 'text-grimoire-foreground/80'}`}
-              animate={isGlowing ? {
-                textShadow: ["0 0 4px rgba(139,92,246,0)", "0 0 10px rgba(139,92,246,0.5)", "0 0 4px rgba(139,92,246,0)"]
-              } : {}}
-              transition={{ duration: 2, repeat: isGlowing ? Infinity : 0 }}
-            >
-              "{currentWisdom.quote}"
-            </motion.p>
-            <p className="text-xs text-grimoire-foreground/60">
-              {currentWisdom.guidance}
-            </p>
-          </motion.div>
-        </AnimatePresence>
-        
-        {/* Subtle shimmer effect */}
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0"
-          animate={{
-            x: ['-100%', '100%'],
-            opacity: [0, 0.05, 0],
-          }}
-          transition={{
-            duration: 3,
-            ease: "easeInOut",
-            repeat: Infinity,
-            repeatDelay: 7,
-          }}
-        />
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <motion.div
+          key={currentWisdom}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="space-y-3"
+        >
+          <blockquote className="text-lg italic text-grimoire-foreground leading-relaxed">
+            "{currentQuote.text}"
+          </blockquote>
+          
+          <div className="text-sm text-grimoire-primary font-medium">
+            — {currentQuote.source}
+          </div>
+          
+          <CardDescription className="text-grimoire-foreground/70 leading-relaxed">
+            <strong>Reflection:</strong> {currentQuote.reflection}
+          </CardDescription>
+        </motion.div>
+
+        <div className="flex justify-center pt-2">
+          <div className="flex gap-1">
+            {wisdomQuotes.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentWisdom(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentWisdom 
+                    ? 'bg-grimoire-primary' 
+                    : 'bg-grimoire-primary/30 hover:bg-grimoire-primary/50'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
