@@ -65,7 +65,7 @@ Come, Lucifuge! Come without noise and without odor! Come and speak truly to my 
 
 Come now, Prime Minister, for I am armed with the power of the Supreme Majesty! Come, for I command thee by virtue of these holy names: Adonai, Tetragrammaton, Jehova, Sabaoth, Metatron, Agia, Agios, Ischyros, Emmanuel, Messias!
 
-Appear in human form, beautiful and without deformity. Come from wherever thou mayest be, and speak intelligibly of what I require of thee.`,
+Appear in human form, beautiful and without deformity. Come from wherever thou mayest be, and speak intelligibly of what I require of thee.`",
     materials: [
       "Black robes",
       "Triangle of manifestation",
