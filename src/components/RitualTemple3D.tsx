@@ -525,12 +525,11 @@ function WarScene({ onHit, activePowerUps }: { onHit: () => void, activePowerUps
         ))}
       </group>
 
-      {/* Atmosphere */}
+      {/* Atmosphere - Fix Cloud props */}
       <Cloud
         opacity={0.5}
         speed={0.4}
-        width={20}
-        depth={5}
+        bounds={[20, 5, 5]}
         segments={20}
       />
       
