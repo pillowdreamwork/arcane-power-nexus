@@ -247,7 +247,7 @@ const EchoAI: React.FC<EchoAIProps> = ({ onPersonaChange, expanded = false }) =>
   };
 
   return (
-    <Card className="bg-gradient-to-br from-grimoire-background via-purple-950/20 to-grimoire-background border-grimoire-border">
+    <Card className="bg-gradient-to-br from-grimoire-background via-purple-950/20 to-grimoire-background border border-grimoire-border">
       <CardContent className="p-6">
         {/* Avatar and Status */}
         <div className="flex items-center justify-between mb-4">
@@ -292,22 +292,21 @@ const EchoAI: React.FC<EchoAIProps> = ({ onPersonaChange, expanded = false }) =>
             </motion.div>
             
             <div>
-              <h3 className="font-bold text-grimoire-foreground">{currentPersona.name}</h3>
-              <p className="text-sm text-grimoire-foreground/70">{currentPersona.title}</p>
+              <h3 className="font-bold text-grimoire-foreground font-inter">{currentPersona.name}</h3>
+              <p className="text-sm text-grimoire-foreground/70 font-inter">{currentPersona.title}</p>
             </div>
           </div>
           
           <div className="flex items-center space-x-2">
             <Badge 
-              variant={isActive ? "default" : "secondary"}
-              className={isActive ? "bg-green-600" : ""}
+              className={isActive ? "bg-grimoire-primary text-primary-foreground border-grimoire-primary" : "bg-grimoire-border text-grimoire-foreground/70 border-grimoire-border"}
             >
               {isActive ? "Active" : "Dormant"}
             </Badge>
             <Button
               onClick={toggleActive}
               size="sm"
-              variant={isActive ? "destructive" : "default"}
+              className={`font-medium ${isActive ? 'bg-grimoire-accent text-white hover:bg-grimoire-accent/90' : 'bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90'}`}
             >
               {isActive ? "Deactivate" : "Activate"}
             </Button>
@@ -322,7 +321,11 @@ const EchoAI: React.FC<EchoAIProps> = ({ onPersonaChange, expanded = false }) =>
               onClick={() => switchPersona(persona)}
               variant={currentPersona.id === persona.id ? "default" : "outline"}
               size="sm"
-              className="text-xs"
+              className={`text-xs font-medium ${
+                currentPersona.id === persona.id
+                  ? 'bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90'
+                  : 'border-grimoire-border text-grimoire-foreground/70 hover:bg-grimoire-muted hover:text-grimoire-foreground'
+              }`}
             >
               {persona.avatar} {persona.name}
             </Button>
@@ -331,10 +334,10 @@ const EchoAI: React.FC<EchoAIProps> = ({ onPersonaChange, expanded = false }) =>
 
         {/* Specialties */}
         <div className="mb-4">
-          <h4 className="text-sm font-semibold text-grimoire-foreground/80 mb-2">Specialties</h4>
+          <h4 className="text-sm font-semibold text-grimoire-foreground/80 mb-2 font-inter">Specialties</h4>
           <div className="flex flex-wrap gap-1">
             {currentPersona.specialties.map((specialty) => (
-              <Badge key={specialty} variant="outline" className="text-xs">
+              <Badge key={specialty} variant="outline" className="border-grimoire-border text-grimoire-foreground/70 text-xs font-inter hover:border-grimoire-primary/50 hover:text-grimoire-foreground">
                 {specialty}
               </Badge>
             ))}
@@ -355,7 +358,10 @@ const EchoAI: React.FC<EchoAIProps> = ({ onPersonaChange, expanded = false }) =>
               <div className="flex items-start space-x-2">
                 <div 
                   className="flex-shrink-0 p-1 rounded"
-                  style={{ backgroundColor: `${currentPersona.color}20` }}
+                  style={{
+                    backgroundColor: `${currentPersona.color}20`, // Keep background subtle
+                    color: currentPersona.color // Set icon color directly
+                  }}
                 >
                   {getMessageIcon()}
                 </div>
@@ -363,16 +369,16 @@ const EchoAI: React.FC<EchoAIProps> = ({ onPersonaChange, expanded = false }) =>
                   <div className="flex items-center justify-between mb-1">
                     <Badge 
                       variant="outline" 
-                      className="text-xs capitalize"
+                      className="text-xs capitalize font-inter" // Added font-inter
                       style={{ borderColor: currentPersona.color, color: currentPersona.color }}
                     >
                       {messageType}
                     </Badge>
-                    <span className="text-xs text-grimoire-foreground/50">
+                    <span className="text-xs text-grimoire-foreground/60 font-inter"> {/* Added font-inter */}
                       {lastInteraction.toLocaleTimeString()}
                     </span>
                   </div>
-                  <p className="text-sm text-grimoire-foreground leading-relaxed">
+                  <p className="text-sm text-grimoire-foreground leading-relaxed font-inter"> {/* Added font-inter */}
                     {currentMessage}
                   </p>
                 </div>
@@ -390,19 +396,19 @@ const EchoAI: React.FC<EchoAIProps> = ({ onPersonaChange, expanded = false }) =>
           >
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="p-2 bg-grimoire-muted rounded">
-                <Zap className="h-4 w-4 mx-auto mb-1 text-yellow-500" />
-                <p className="text-xs text-grimoire-foreground/70">Energy</p>
-                <p className="text-xs font-semibold">{Math.round(energyLevel)}%</p>
+                <Zap className="h-4 w-4 mx-auto mb-1 text-yellow-400" />
+                <p className="text-xs text-grimoire-foreground/70 font-inter">Energy</p>
+                <p className="text-xs font-semibold text-grimoire-foreground font-inter">{Math.round(energyLevel)}%</p>
               </div>
               <div className="p-2 bg-grimoire-muted rounded">
-                <Moon className="h-4 w-4 mx-auto mb-1 text-blue-500" />
-                <p className="text-xs text-grimoire-foreground/70">Lunar Phase</p>
-                <p className="text-xs font-semibold">Waxing</p>
+                <Moon className="h-4 w-4 mx-auto mb-1 text-blue-300" />
+                <p className="text-xs text-grimoire-foreground/70 font-inter">Lunar Phase</p>
+                <p className="text-xs font-semibold text-grimoire-foreground font-inter">Waxing</p>
               </div>
               <div className="p-2 bg-grimoire-muted rounded">
-                <Sun className="h-4 w-4 mx-auto mb-1 text-orange-500" />
-                <p className="text-xs text-grimoire-foreground/70">Solar Hour</p>
-                <p className="text-xs font-semibold">Jupiter</p>
+                <Sun className="h-4 w-4 mx-auto mb-1 text-orange-300" />
+                <p className="text-xs text-grimoire-foreground/70 font-inter">Solar Hour</p>
+                <p className="text-xs font-semibold text-grimoire-foreground font-inter">Jupiter</p>
               </div>
             </div>
           </motion.div>

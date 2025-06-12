@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import React, { useState } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield } from "lucide-react";
+import { Shield, Star, VolumeX } from "lucide-react"; // Added Star and VolumeX
+import SacredGeometry from "@/components/ui/SacredGeometry"; // Import SacredGeometry
 
 const Armory = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -103,20 +105,20 @@ const Armory = () => {
   return (
     <GrimoireLayout>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-grimoire-primary mb-4">War Armory</h1>
+        <h1 className="text-3xl font-bold text-grimoire-primary font-inter mb-4">War Armory</h1>
         <div className="mb-6">
-          <p className="text-grimoire-foreground/80">Tools and components for your spiritual practice.</p>
+          <p className="text-grimoire-foreground/80 font-inter">Tools and components for your spiritual practice.</p>
         </div>
 
         <Tabs defaultValue="mantras" className="w-full">
-          <TabsList className="bg-grimoire-muted border border-grimoire-border mb-6">
-            <TabsTrigger value="mantras" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+          <TabsList className="bg-grimoire-muted/50 border-b border-grimoire-border rounded-t-lg mb-6">
+            <TabsTrigger value="mantras" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted data-[state=active]:border-b-2 data-[state=active]:border-grimoire-primary font-medium">
               Mantras
             </TabsTrigger>
-            <TabsTrigger value="yantras" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+            <TabsTrigger value="yantras" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted data-[state=active]:border-b-2 data-[state=active]:border-grimoire-primary font-medium">
               Yantras
             </TabsTrigger>
-            <TabsTrigger value="jantras" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+            <TabsTrigger value="jantras" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted data-[state=active]:border-b-2 data-[state=active]:border-grimoire-primary font-medium">
               Jantras
             </TabsTrigger>
           </TabsList>
@@ -126,53 +128,52 @@ const Armory = () => {
               {mantras.map((mantra) => (
                 <Card 
                   key={mantra.id} 
-                  className="bg-grimoire-muted border-grimoire-border grimoire-border group"
+                  className="bg-grimoire-muted border border-grimoire-border hover:border-grimoire-primary/50 transition-colors group"
                 >
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                      <CardTitle className="text-grimoire-primary font-semibold font-inter text-xl">
                         {mantra.name}
                       </CardTitle>
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className={`w-8 h-8 ${favorites.includes(mantra.id) ? "text-grimoire-primary" : "text-grimoire-foreground/50"}`}
+                        className={`w-8 h-8 ${favorites.includes(mantra.id) ? "text-grimoire-primary fill-grimoire-primary" : "text-grimoire-foreground/50 hover:text-grimoire-primary/70"}`}
                         onClick={() => toggleFavorite(mantra.id)}
                       >
                         <Star className="h-4 w-4" />
                       </Button>
                     </div>
-                    <CardDescription className="text-grimoire-foreground/70">
+                    <CardDescription className="text-grimoire-foreground/70 font-inter text-sm">
                       {mantra.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-grimoire-foreground/70">Origin</p>
-                        <p className="text-grimoire-foreground">{mantra.origin}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Origin</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{mantra.origin}</p>
                       </div>
                       <div>
-                        <p className="text-grimoire-foreground/70">Power</p>
-                        <p className="text-grimoire-foreground">{mantra.power}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Power</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{mantra.power}</p>
                       </div>
                       <div>
-                        <p className="text-grimoire-foreground/70">Repetitions</p>
-                        <p className="text-grimoire-foreground">{mantra.repetitions}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Repetitions</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{mantra.repetitions}</p>
                       </div>
                     </div>
                     
-                    <div className="h-10 bg-grimoire-background rounded-md border border-grimoire-border flex items-center px-3">
-                      <div className="w-full flex items-center">
-                        <div className="h-1 bg-grimoire-primary/50 w-full rounded-full"></div>
-                      </div>
+                    <div className="h-10 bg-grimoire-background rounded-md border border-grimoire-border flex items-center justify-center text-grimoire-foreground/50 text-xs italic px-3">
+                      <VolumeX className="h-4 w-4 mr-2" />
+                      <span>Audio unavailable</span>
                     </div>
                   </CardContent>
                   <CardFooter className="flex justify-between">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10 font-medium text-sm">
                       Listen
                     </Button>
-                    <Button size="sm">Use in Ritual</Button>
+                    <Button size="sm" className="bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium text-sm">Use in Ritual</Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -184,63 +185,56 @@ const Armory = () => {
               {yantras.map((yantra) => (
                 <Card 
                   key={yantra.id} 
-                  className="bg-grimoire-muted border-grimoire-border grimoire-border group"
+                  className="bg-grimoire-muted border border-grimoire-border hover:border-grimoire-primary/50 transition-colors group"
                 >
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                      <CardTitle className="text-grimoire-primary font-semibold font-inter text-xl">
                         {yantra.name}
                       </CardTitle>
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className={`w-8 h-8 ${favorites.includes(yantra.id) ? "text-grimoire-primary" : "text-grimoire-foreground/50"}`}
+                        className={`w-8 h-8 ${favorites.includes(yantra.id) ? "text-grimoire-primary fill-grimoire-primary" : "text-grimoire-foreground/50 hover:text-grimoire-primary/70"}`}
                         onClick={() => toggleFavorite(yantra.id)}
                       >
                         <Star className="h-4 w-4" />
                       </Button>
                     </div>
-                    <CardDescription className="text-grimoire-foreground/70">
+                    <CardDescription className="text-grimoire-foreground/70 font-inter text-sm">
                       {yantra.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="aspect-square bg-grimoire-background rounded-md border border-grimoire-border flex items-center justify-center relative overflow-hidden">
-                      <div className="w-3/4 h-3/4 opacity-80 animate-rotate-slow">
-                        {/* This would be replaced with the actual yantra image */}
-                        <div className="w-full h-full relative">
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-full h-full border-2 border-grimoire-primary/50 rotate-45"></div>
-                          </div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-4/5 h-4/5 border border-grimoire-primary/70"></div>
-                          </div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-1/2 h-1/2 bg-grimoire-primary/10 rounded-full"></div>
-                          </div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-1/3 h-1/3 bg-grimoire-primary/20 rotate-45"></div>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="aspect-square bg-grimoire-background rounded-md border border-grimoire-border flex items-center justify-center relative overflow-hidden p-4 group">
+                      <SacredGeometry
+                        name={
+                          yantra.id === "yantra1" ? "SriYantraPlaceholder" :
+                          yantra.id === "yantra2" ? "Hexagram" : // Placeholder, specific geometry can be added later
+                          "FlowerOfLifeSegment" // Default for other yantras
+                        }
+                        className="w-full h-full text-grimoire-primary/70 group-hover:text-grimoire-primary transition-colors duration-300 animate-rotate-slow"
+                        size={100}
+                        strokeWidth={1}
+                      />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-grimoire-foreground/70">Elements</p>
-                        <p className="text-grimoire-foreground">{yantra.elements}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Elements</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{yantra.elements}</p>
                       </div>
                       <div>
-                        <p className="text-grimoire-foreground/70">Power</p>
-                        <p className="text-grimoire-foreground">{yantra.power}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Power</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{yantra.power}</p>
                       </div>
                     </div>
                   </CardContent>
                   <CardFooter className="flex justify-between">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10 font-medium text-sm">
                       Download
                     </Button>
-                    <Button size="sm">Use in Ritual</Button>
+                    <Button size="sm" className="bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium text-sm">Use in Ritual</Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -252,62 +246,60 @@ const Armory = () => {
               {jantras.map((jantra) => (
                 <Card 
                   key={jantra.id} 
-                  className="bg-grimoire-muted border-grimoire-border grimoire-border group"
+                  className="bg-grimoire-muted border border-grimoire-border hover:border-grimoire-primary/50 transition-colors group"
                 >
                   <CardHeader>
                     <div className="flex justify-between items-start">
-                      <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                      <CardTitle className="text-grimoire-primary font-semibold font-inter text-xl">
                         {jantra.name}
                       </CardTitle>
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className={`w-8 h-8 ${favorites.includes(jantra.id) ? "text-grimoire-primary" : "text-grimoire-foreground/50"}`}
+                        className={`w-8 h-8 ${favorites.includes(jantra.id) ? "text-grimoire-primary fill-grimoire-primary" : "text-grimoire-foreground/50 hover:text-grimoire-primary/70"}`}
                         onClick={() => toggleFavorite(jantra.id)}
                       >
                         <Star className="h-4 w-4" />
                       </Button>
                     </div>
-                    <CardDescription className="text-grimoire-foreground/70">
+                    <CardDescription className="text-grimoire-foreground/70 font-inter text-sm">
                       {jantra.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="aspect-square bg-grimoire-background rounded-md border border-grimoire-border flex items-center justify-center relative overflow-hidden">
-                      {/* This would be a 3D representation of the jantra */}
-                      <div className="relative w-1/2 h-1/2 transform-gpu animate-float">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-full h-full border border-grimoire-primary/50 rotate-45 transform-gpu animate-rotate-slow"></div>
-                        </div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-4/5 h-4/5 border border-grimoire-primary/40 rotate-[30deg] transform-gpu animate-rotate-slow" style={{ animationDirection: "reverse", animationDuration: "15s" }}></div>
-                        </div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-3/5 h-3/5 border border-grimoire-primary/30 rotate-[60deg] transform-gpu animate-rotate-slow" style={{ animationDuration: "20s" }}></div>
-                        </div>
-                      </div>
+                    <div className="aspect-square bg-grimoire-background rounded-md border border-grimoire-border flex items-center justify-center relative overflow-hidden p-6 group">
+                       <SacredGeometry
+                        name={
+                          jantra.id === "jantra1" ? "Pentagram" : // Example mapping
+                          jantra.id === "jantra2" ? "FlowerOfLifeSegment" :
+                          "DefaultSymbol" // Default for other jantras
+                        }
+                        className="w-full h-full text-grimoire-primary/60 group-hover:text-grimoire-primary transition-colors duration-300 transform-gpu animate-float"
+                        size={80}
+                        strokeWidth={1.5}
+                      />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-grimoire-foreground/70">Construction</p>
-                        <p className="text-grimoire-foreground">{jantra.construction}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Construction</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{jantra.construction}</p>
                       </div>
                       <div>
-                        <p className="text-grimoire-foreground/70">Power</p>
-                        <p className="text-grimoire-foreground">{jantra.power}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Power</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{jantra.power}</p>
                       </div>
                       <div>
-                        <p className="text-grimoire-foreground/70">Complexity</p>
-                        <p className="text-grimoire-foreground">{jantra.complexity}</p>
+                        <p className="text-grimoire-foreground/70 font-inter text-xs uppercase tracking-wider">Complexity</p>
+                        <p className="text-grimoire-foreground font-inter text-sm">{jantra.complexity}</p>
                       </div>
                     </div>
                   </CardContent>
                   <CardFooter className="flex justify-between">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10 font-medium text-sm">
                       Blueprint
                     </Button>
-                    <Button size="sm">Use in Ritual</Button>
+                    <Button size="sm" className="bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium text-sm">Use in Ritual</Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -332,8 +324,7 @@ const Star = ({ className }: { className?: string }) => (
     strokeLinejoin="round"
     className={className}
   >
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-  </svg>
-);
+    {/* Lucide star path or similar will be used by the imported Star component */}
+// Local Star component definition is now removed as lucide-react Star is used.
 
 export default Armory;

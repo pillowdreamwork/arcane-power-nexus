@@ -81,9 +81,9 @@ const RitualController: React.FC<RitualControllerProps> = ({
   };
 
   return (
-    <Card className="bg-grimoire-muted border-grimoire-border">
+    <Card className="bg-grimoire-muted border border-grimoire-border">
       <CardHeader>
-        <CardTitle className="text-grimoire-foreground flex items-center">
+        <CardTitle className="text-grimoire-foreground font-semibold font-inter flex items-center">
           <Zap className="h-5 w-5 mr-2 text-grimoire-primary" />
           Ritual Controller
         </CardTitle>
@@ -92,27 +92,27 @@ const RitualController: React.FC<RitualControllerProps> = ({
         {/* Status Display */}
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center">
-            <div className="text-2xl font-bold text-grimoire-primary">{formatTime(duration)}</div>
-            <div className="text-sm text-grimoire-foreground/70">Duration</div>
+            <div className="text-2xl font-bold text-grimoire-primary font-inter">{formatTime(duration)}</div>
+            <div className="text-sm text-grimoire-foreground/70 font-inter">Duration</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-grimoire-primary">{getRitualPhase()}</div>
-            <div className="text-sm text-grimoire-foreground/70">Phase</div>
+            <div className="text-2xl font-bold text-grimoire-primary font-inter">{getRitualPhase()}</div>
+            <div className="text-sm text-grimoire-foreground/70 font-inter">Phase</div>
           </div>
         </div>
 
         {/* Energy Level */}
         <div>
-          <div className="flex justify-between text-sm mb-2">
+          <div className="flex justify-between text-sm mb-2 font-inter">
             <span className="text-grimoire-foreground/70">Energy Level</span>
             <span className="text-grimoire-foreground">{Math.round(energyLevel)}%</span>
           </div>
-          <Progress value={energyLevel} className="h-3" />
+          <Progress value={energyLevel} className="h-3 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
         </div>
 
         {/* Intensity Control */}
         <div>
-          <div className="flex justify-between text-sm mb-2">
+          <div className="flex justify-between text-sm mb-2 font-inter">
             <span className="text-grimoire-foreground/70">Intensity</span>
             <span className="text-grimoire-foreground">{intensity[0]}%</span>
           </div>
@@ -122,7 +122,7 @@ const RitualController: React.FC<RitualControllerProps> = ({
             max={100}
             min={10}
             step={5}
-            className="w-full"
+            className="w-full [&>.track]:bg-grimoire-border [&>.thumb]:bg-grimoire-primary [&>.thumb]:focus-visible:ring-grimoire-primary"
             disabled={isActive}
           />
         </div>
@@ -131,7 +131,7 @@ const RitualController: React.FC<RitualControllerProps> = ({
         <div className="flex gap-2">
           <Button
             onClick={toggleRitual}
-            className={`flex-1 ${isActive ? 'bg-orange-500 hover:bg-orange-600' : 'bg-grimoire-primary hover:bg-grimoire-primary/90'}`}
+            className={`flex-1 font-medium ${isActive ? 'bg-grimoire-accent hover:bg-grimoire-accent/90 text-white' : 'bg-grimoire-primary hover:bg-grimoire-primary/90 text-primary-foreground'}`}
           >
             {isActive ? (
               <>
@@ -149,7 +149,7 @@ const RitualController: React.FC<RitualControllerProps> = ({
           <Button
             onClick={resetRitual}
             variant="outline"
-            className="flex-1"
+            className="flex-1 border-grimoire-border text-grimoire-foreground/80 hover:bg-grimoire-muted/70 hover:text-grimoire-foreground font-medium"
           >
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset
@@ -160,20 +160,20 @@ const RitualController: React.FC<RitualControllerProps> = ({
         <div className="flex items-center justify-between pt-4 border-t border-grimoire-border">
           <div className="flex items-center">
             <Volume2 className="h-4 w-4 mr-2 text-grimoire-foreground/70" />
-            <span className="text-sm text-grimoire-foreground/70">Ambient Sound</span>
+            <span className="text-sm text-grimoire-foreground/70 font-inter">Ambient Sound</span>
           </div>
           <Button
             variant="outline"
             size="sm"
             onClick={() => setAmbientSound(!ambientSound)}
-            className={ambientSound ? 'bg-grimoire-primary/20' : ''}
+            className={`border-grimoire-border text-grimoire-foreground/70 ${ambientSound ? 'bg-grimoire-primary/20 border-grimoire-primary/50' : ''}`}
           >
             {ambientSound ? 'On' : 'Off'}
           </Button>
         </div>
 
         {/* Ritual-specific guidance */}
-        <div className="text-xs text-grimoire-foreground/60 bg-grimoire-background p-3 rounded">
+        <div className="text-xs text-grimoire-foreground/70 bg-grimoire-background p-3 rounded border border-grimoire-border font-inter">
           <strong>Current Focus:</strong> {ritualType === 'circle' && 'Maintain protective boundaries while channeling energy'}
           {ritualType === 'triangle' && 'Focus intent through the three-point manifestation'}
           {ritualType === 'mirror' && 'Gaze into the reflective surface while building energy'}

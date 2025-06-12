@@ -92,13 +92,13 @@ const Rituals = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl font-bold text-grimoire-primary mb-2">Virtual Ritual Spaces</h1>
+          <h1 className="text-3xl font-bold text-grimoire-primary mb-2 font-inter">Virtual Ritual Spaces</h1>
           <div className="flex flex-wrap gap-2 mb-6">
             {Object.keys(ritualSpaces).map((space) => (
               <Button 
                 key={space}
                 variant={activeSpace === space ? "default" : "outline"}
-                className={`text-sm px-3 py-2 ${activeSpace === space ? 'bg-grimoire-primary animate-pulse-subtle' : ''}`}
+                className={`text-sm px-3 py-2 ${activeSpace === space ? 'bg-grimoire-primary text-primary-foreground animate-pulse-subtle' : 'border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10 hover:border-grimoire-primary font-medium'}`}
                 onClick={() => {
                   setActiveSpace(space);
                   setIsRitualActive(false);
@@ -121,13 +121,13 @@ const Rituals = () => {
             />
             
             <div className="flex flex-wrap gap-2 justify-between items-center">
-              <div className="text-sm text-grimoire-foreground/70">
+              <div className="text-sm text-grimoire-foreground/70 font-inter">
                 Energy Level: {energyLevel}/100
               </div>
               {!isRitualActive ? (
                 <Button 
                   onClick={handleActivateRitual}
-                  className="bg-grimoire-primary hover:bg-grimoire-primary/90"
+                  className="bg-grimoire-primary hover:bg-grimoire-primary/90 text-primary-foreground font-medium"
                 >
                   <Circle className="h-4 w-4 mr-2" />
                   Activate {ritualSpaces[activeSpace].name}
@@ -136,6 +136,7 @@ const Rituals = () => {
                 <Button 
                   onClick={() => setIsRitualActive(false)}
                   variant="outline"
+                  className="border-grimoire-accent/70 text-grimoire-accent hover:bg-grimoire-accent/10 hover:text-grimoire-accent font-medium"
                 >
                   Deactivate
                 </Button>
@@ -149,33 +150,33 @@ const Rituals = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <CardHeader>
-              <CardTitle className="text-grimoire-foreground">{ritualSpaces[activeSpace].name}</CardTitle>
-              <CardDescription>{ritualSpaces[activeSpace].description}</CardDescription>
+            <CardHeader className="p-4 pb-2"> {/* Adjusted padding for CardHeader within InfoCard */}
+              <CardTitle className="text-grimoire-foreground font-semibold font-inter">{ritualSpaces[activeSpace].name}</CardTitle>
+              <CardDescription className="font-inter text-grimoire-foreground/80">{ritualSpaces[activeSpace].description}</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 pt-2"> {/* Adjusted padding for CardContent within InfoCard */}
               <div className="flex flex-wrap gap-2 mb-2">
                 {ritualSpaces[activeSpace].elements.map((element, index) => (
-                  <span key={index} className="px-2 py-1 bg-grimoire-background border rounded text-xs">{element}</span>
+                  <span key={index} className="px-2 py-1 bg-grimoire-background border border-grimoire-border rounded text-xs text-grimoire-foreground/70 font-inter">{element}</span>
                 ))}
               </div>
-              <div className="text-sm text-grimoire-foreground/80 mt-4">Effect: {ritualSpaces[activeSpace].activeEffect}</div>
+              <div className="text-sm text-grimoire-foreground/80 font-inter mt-4">Effect: {ritualSpaces[activeSpace].activeEffect}</div>
               
-              <Separator className="my-4" />
+              <Separator className="my-4 border-grimoire-border" /> {/* Added border color to separator */}
               
               <Drawer>
                 <DrawerTrigger asChild>
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button variant="outline" size="sm" className="w-full border-grimoire-border text-grimoire-foreground/70 hover:bg-grimoire-muted/70 hover:text-grimoire-foreground font-medium">
                     <Info className="h-4 w-4 mr-2" />
                     Historical Context
                   </Button>
                 </DrawerTrigger>
-                <DrawerContent className="bg-grimoire-background text-grimoire-foreground p-4">
-                  <DrawerHeader>
-                    <DrawerTitle>About {ritualSpaces[activeSpace].name}</DrawerTitle>
-                    <DrawerDescription>Historical and practical context</DrawerDescription>
+                <DrawerContent className="bg-grimoire-background text-grimoire-foreground border-t border-grimoire-border p-4">
+                  <DrawerHeader className="font-inter">
+                    <DrawerTitle className="text-grimoire-primary font-inter">About {ritualSpaces[activeSpace].name}</DrawerTitle>
+                    <DrawerDescription className="text-grimoire-foreground/70 font-inter">Historical and practical context</DrawerDescription>
                   </DrawerHeader>
-                  <div className="p-4 space-y-4 text-sm">
+                  <div className="p-4 space-y-4 text-sm font-inter">
                     {activeSpace === "circle" && (
                       <>
                         <p>The magic circle has been used in ritual practices across numerous traditions for millennia. It represents completeness, infinity, and protection - a boundary between the practitioner and external forces.</p>
@@ -234,8 +235,8 @@ const Rituals = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <h2 className="text-xl font-semibold text-grimoire-primary mb-2">Ritual Library</h2>
-          <p className="text-grimoire-foreground/80 mb-4">Select a ritual to perform in your activated space</p>
+          <h2 className="text-xl font-semibold text-grimoire-primary mb-2 font-inter">Ritual Library</h2>
+          <p className="text-grimoire-foreground/80 mb-4 font-inter">Select a ritual to perform in your activated space</p>
           <div className="mb-8">
             <RitualLibrary />
           </div>

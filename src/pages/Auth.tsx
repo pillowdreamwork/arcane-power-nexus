@@ -149,45 +149,45 @@ const Auth = () => {
 
   return (
     <div className="flex min-h-screen w-full">
-      <div className="flex-1 bg-grimoire-background p-8 flex flex-col items-center justify-center sacred-pattern">
+      <div className="flex-1 bg-grimoire-background p-8 flex flex-col items-center justify-center sacred-pattern font-inter">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-grimoire-primary grimoire-text-shadow mb-2">
+            <h1 className="text-3xl font-bold text-grimoire-primary grimoire-text-shadow font-inter mb-2">
               Post-Genesis Power Codex
             </h1>
-            <p className="text-grimoire-foreground/80">
+            <p className="text-grimoire-foreground/80 font-inter">
               Enter the sacred chambers of spiritual knowledge
             </p>
           </div>
           
-          <Card className="bg-grimoire-muted border-grimoire-border grimoire-border">
-            <CardHeader>
-              <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid w-full grid-cols-2 bg-grimoire-background">
-                  <TabsTrigger value="login" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+          <Card className="bg-grimoire-muted border-grimoire-border">
+            <CardHeader className="p-0"> {/* Remove padding if TabsList is directly inside */}
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                <TabsList className="grid w-full grid-cols-2 bg-grimoire-background/70 backdrop-blur-sm border-b border-grimoire-border rounded-t-md">
+                  <TabsTrigger value="login" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
                     Login
                   </TabsTrigger>
-                  <TabsTrigger value="signup" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+                  <TabsTrigger value="signup" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
                     Sign Up
                   </TabsTrigger>
                 </TabsList>
                 
-                <TabsContent value="login" className="mt-4">
-                  <CardTitle className="text-grimoire-foreground grimoire-text-shadow flex items-center">
+                <TabsContent value="login" className="mt-4 px-6 pb-0"> {/* Add padding back here */}
+                  <CardTitle className="text-grimoire-foreground font-semibold font-inter text-xl flex items-center">
                     <Triangle className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
                     Spiritual Access
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="font-inter text-sm text-grimoire-foreground/70">
                     Enter your credentials to access the grimoire
                   </CardDescription>
                 </TabsContent>
                 
-                <TabsContent value="signup" className="mt-4">
-                  <CardTitle className="text-grimoire-foreground grimoire-text-shadow flex items-center">
+                <TabsContent value="signup" className="mt-4 px-6 pb-0"> {/* Add padding back here */}
+                  <CardTitle className="text-grimoire-foreground font-semibold font-inter text-xl flex items-center">
                     <Star className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
                     Begin Your Journey
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="font-inter text-sm text-grimoire-foreground/70">
                     Create an account to unlock spiritual wisdom
                   </CardDescription>
                 </TabsContent>
@@ -203,12 +203,12 @@ const Auth = () => {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel className="text-grimoire-foreground/90 font-inter text-sm">Email</FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="you@example.com" 
                               {...field} 
-                              className="bg-grimoire-background border-grimoire-border"
+                              className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                             />
                           </FormControl>
                           <FormMessage />
@@ -221,13 +221,13 @@ const Auth = () => {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel className="text-grimoire-foreground/90 font-inter text-sm">Password</FormLabel>
                           <FormControl>
                             <Input 
                               type="password" 
                               placeholder="••••••••" 
                               {...field} 
-                              className="bg-grimoire-background border-grimoire-border"
+                              className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                             />
                           </FormControl>
                           <FormMessage />
@@ -248,7 +248,7 @@ const Auth = () => {
                             />
                           </FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel>Remember me</FormLabel>
+                            <FormLabel className="text-sm font-medium text-grimoire-foreground/90 font-inter">Remember me</FormLabel>
                           </div>
                         </FormItem>
                       )}
@@ -257,7 +257,7 @@ const Auth = () => {
                     <Button 
                       type="submit" 
                       disabled={isLoading}
-                      className="w-full bg-grimoire-primary hover:bg-grimoire-primary/90"
+                      className="w-full bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium"
                     >
                       {isLoading ? "Connecting..." : "Login"}
                     </Button>
@@ -273,12 +273,12 @@ const Auth = () => {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Name</FormLabel>
+                          <FormLabel className="text-grimoire-foreground/90 font-inter text-sm">Name</FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="Your name" 
                               {...field} 
-                              className="bg-grimoire-background border-grimoire-border"
+                              className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                             />
                           </FormControl>
                           <FormMessage />
@@ -291,12 +291,12 @@ const Auth = () => {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel className="text-grimoire-foreground/90 font-inter text-sm">Email</FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="you@example.com" 
                               {...field} 
-                              className="bg-grimoire-background border-grimoire-border"
+                              className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                             />
                           </FormControl>
                           <FormMessage />
@@ -309,13 +309,13 @@ const Auth = () => {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Password</FormLabel>
+                          <FormLabel className="text-grimoire-foreground/90 font-inter text-sm">Password</FormLabel>
                           <FormControl>
                             <Input 
                               type="password" 
                               placeholder="Create a password" 
                               {...field} 
-                              className="bg-grimoire-background border-grimoire-border"
+                              className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                             />
                           </FormControl>
                           <FormMessage />
@@ -328,13 +328,13 @@ const Auth = () => {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Confirm Password</FormLabel>
+                          <FormLabel className="text-grimoire-foreground/90 font-inter text-sm">Confirm Password</FormLabel>
                           <FormControl>
                             <Input 
                               type="password" 
                               placeholder="Confirm your password" 
                               {...field} 
-                              className="bg-grimoire-background border-grimoire-border"
+                              className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                             />
                           </FormControl>
                           <FormMessage />
@@ -355,7 +355,7 @@ const Auth = () => {
                             />
                           </FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel>I agree to the Terms of Service and Privacy Policy</FormLabel>
+                            <FormLabel className="text-sm font-medium text-grimoire-foreground/90 font-inter">I agree to the Terms of Service and Privacy Policy</FormLabel>
                           </div>
                         </FormItem>
                       )}
@@ -364,7 +364,7 @@ const Auth = () => {
                     <Button 
                       type="submit" 
                       disabled={isLoading}
-                      className="w-full bg-grimoire-primary hover:bg-grimoire-primary/90"
+                      className="w-full bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium"
                     >
                       {isLoading ? "Creating Account..." : "Sign Up"}
                     </Button>
@@ -388,8 +388,8 @@ const Auth = () => {
           </div>
           
           <div className="text-center max-w-xs">
-            <h2 className="text-2xl font-bold text-grimoire-primary grimoire-text-shadow mb-4">Spiritual Liberation</h2>
-            <p className="text-grimoire-foreground/80">
+            <h2 className="text-2xl font-bold text-grimoire-primary grimoire-text-shadow font-inter mb-4">Spiritual Liberation</h2>
+            <p className="text-grimoire-foreground/80 font-inter">
               "The path to enlightenment begins with the recognition that the self is not separate from the cosmic whole."
             </p>
           </div>

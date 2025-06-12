@@ -200,12 +200,12 @@ const Practice = () => {
 
   return (
     <GrimoireLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 font-inter">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-grimoire-primary grimoire-text-shadow animate-fade-in">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-grimoire-primary grimoire-text-shadow font-inter animate-fade-in">
             Ritual Practices
           </h1>
-          <p className="text-grimoire-foreground/80 animate-fade-in">
+          <p className="text-grimoire-foreground/80 font-inter animate-fade-in">
             Guided spiritual techniques for transformation and liberation
           </p>
         </div>
@@ -215,7 +215,7 @@ const Practice = () => {
           <div className="md:col-span-1">
             <Card className="bg-grimoire-muted border-grimoire-border sticky top-20">
               <CardHeader>
-                <CardTitle className="text-grimoire-foreground grimoire-text-shadow flex items-center text-lg">
+                <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter flex items-center text-lg">
                   <Sparkles className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
                   Categories
                 </CardTitle>
@@ -224,7 +224,7 @@ const Practice = () => {
                 <div className="space-y-2">
                   <Button 
                     variant={activeCategory === "all" ? "default" : "outline"}
-                    className={`w-full justify-start ${activeCategory === "all" ? "bg-grimoire-primary" : "hover:bg-grimoire-muted/60"}`}
+                    className={`w-full justify-start font-medium ${activeCategory === "all" ? "bg-grimoire-primary text-primary-foreground" : "border-grimoire-border text-grimoire-foreground/80 hover:bg-grimoire-muted/70"}`}
                     onClick={() => setActiveCategory("all")}
                   >
                     All Practices
@@ -234,7 +234,7 @@ const Practice = () => {
                     <Button
                       key={category}
                       variant={activeCategory === category ? "default" : "outline"}
-                      className={`w-full justify-start ${activeCategory === category ? "bg-grimoire-primary" : "hover:bg-grimoire-muted/60"}`}
+                      className={`w-full justify-start font-medium ${activeCategory === category ? "bg-grimoire-primary text-primary-foreground" : "border-grimoire-border text-grimoire-foreground/80 hover:bg-grimoire-muted/70"}`}
                       onClick={() => setActiveCategory(category)}
                     >
                       {category}
@@ -253,13 +253,13 @@ const Practice = () => {
               {filteredSessions.map((session) => (
                 <Card 
                   key={session.id} 
-                  className="bg-grimoire-muted border-grimoire-border hover:border-grimoire-primary/70 transition-all duration-300 group grimoire-border overflow-hidden relative"
+                  className="bg-grimoire-muted border-grimoire-border hover:border-grimoire-primary/70 transition-all duration-300 group overflow-hidden relative"
                 >
-                  <div className="absolute inset-0 pentagram opacity-30"></div>
+                  <div className="absolute inset-0 pentagram opacity-30"></div> {/* This class needs definition or to be replaced */}
                   <div 
                     className="absolute top-0 right-0 w-16 h-16"
                     style={{
-                      background: `radial-gradient(circle at top right, ${session.color}40 0%, transparent 70%)`
+                      background: `radial-gradient(circle at top right, ${session.color}20 0%, transparent 70%)` // Adjusted opacity from 40 to 20 for subtlety
                     }}
                   ></div>
                   
@@ -269,30 +269,31 @@ const Practice = () => {
                         className="h-6 w-6 grimoire-glow" 
                         style={{ color: session.color }}
                       />
-                      <span className="text-xs font-medium px-2 py-1 rounded-full bg-grimoire-background/50 text-grimoire-foreground/70">
+                      <Badge variant="outline" className="text-xs font-medium px-2 py-1 rounded-full bg-grimoire-background/50 text-grimoire-foreground/70 border-grimoire-border font-inter">
                         {session.level} • {session.duration} min
-                      </span>
+                      </Badge>
                     </div>
-                    <CardTitle className="grimoire-text-shadow text-lg">
+                    <CardTitle className="grimoire-text-shadow text-lg font-inter">
                       {session.title}
                     </CardTitle>
-                    <CardDescription className="text-grimoire-foreground/70">
+                    <CardDescription className="text-grimoire-foreground/70 font-inter">
                       {session.description}
                     </CardDescription>
                   </CardHeader>
                   
                   <CardContent>
-                    <div className="flex justify-between text-sm text-grimoire-foreground/60 mb-3">
+                    <div className="flex justify-between text-sm text-grimoire-foreground/60 mb-3 font-inter">
                       <span>Benefits:</span>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {session.benefits.map((benefit, i) => (
-                        <span 
+                        <Badge
                           key={i} 
-                          className="text-xs bg-grimoire-background/50 text-grimoire-foreground/70 rounded-full px-2 py-1"
+                          variant="outline"
+                          className="text-xs bg-grimoire-background/50 text-grimoire-foreground/70 border-grimoire-border font-inter rounded-full px-2 py-1"
                         >
                           {benefit}
-                        </span>
+                        </Badge>
                       ))}
                     </div>
                   </CardContent>
@@ -300,22 +301,22 @@ const Practice = () => {
                   <CardFooter className="flex justify-between">
                     <HoverCard>
                       <HoverCardTrigger asChild>
-                        <Button variant="ghost">View Steps</Button>
+                        <Button variant="ghost" className="text-grimoire-primary/80 hover:text-grimoire-primary font-medium">View Steps</Button>
                       </HoverCardTrigger>
                       <HoverCardContent 
-                        className="w-80 bg-grimoire-muted border-grimoire-border" 
+                        className="w-80 bg-grimoire-muted border-grimoire-border font-inter"
                         side="bottom"
                       >
                         <div className="space-y-2">
-                          <h4 className="font-medium text-grimoire-foreground mb-2">Practice Flow:</h4>
+                          <h4 className="font-medium text-grimoire-foreground mb-2 font-inter">Practice Flow:</h4>
                           {session.steps.map((step) => (
                             <div key={step.id} className="flex items-start gap-2">
                               <div className="w-5 h-5 rounded-full bg-grimoire-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs text-grimoire-primary font-medium">{step.id}</span>
+                                <span className="text-xs text-grimoire-primary font-medium font-inter">{step.id}</span>
                               </div>
                               <div>
-                                <p className="text-sm font-medium text-grimoire-foreground">{step.title}</p>
-                                <p className="text-xs text-grimoire-foreground/70">{step.duration} min</p>
+                                <p className="text-sm font-medium text-grimoire-foreground font-inter">{step.title}</p>
+                                <p className="text-xs text-grimoire-foreground/70 font-inter">{step.duration} min</p>
                               </div>
                             </div>
                           ))}
@@ -325,7 +326,7 @@ const Practice = () => {
                     
                     <Button 
                       variant="outline" 
-                      className="group-hover:border-grimoire-primary/70 group-hover:text-grimoire-primary transition-colors"
+                      className="border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10 font-medium"
                       onClick={() => handleStartSession(session)}
                     >
                       <Sparkles className="h-4 w-4 mr-2" />
@@ -341,45 +342,45 @@ const Practice = () => {
       
       {/* Active Practice Drawer */}
       <Drawer open={isSessionActive} onOpenChange={setIsSessionActive}>
-        <DrawerContent className="bg-grimoire-background border-t border-grimoire-border">
-          <DrawerHeader>
-            <DrawerTitle className="text-grimoire-primary grimoire-text-shadow flex items-center">
+        <DrawerContent className="bg-grimoire-background border-t border-grimoire-border font-inter">
+          <DrawerHeader className="font-inter">
+            <DrawerTitle className="text-grimoire-primary grimoire-text-shadow flex items-center font-inter">
               {activeSession?.icon && React.createElement(activeSession.icon, { 
                 className: "h-5 w-5 mr-2 grimoire-glow", 
                 style: { color: activeSession?.color } 
               })}
               {activeSession?.title} - {currentStep?.title}
             </DrawerTitle>
-            <DrawerDescription>
+            <DrawerDescription className="font-inter text-grimoire-foreground/70">
               Step {currentStepIndex + 1} of {activeSession?.steps.length}
             </DrawerDescription>
           </DrawerHeader>
           
           <div className="p-4 pb-8">
-            <Progress value={sessionProgress} className="mb-6 h-2 bg-grimoire-muted" />
+            <Progress value={sessionProgress} className="mb-6 h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Card className="md:col-span-2 bg-grimoire-muted border-grimoire-border">
                 <CardHeader>
-                  <CardTitle className="text-lg text-grimoire-foreground grimoire-text-shadow">
+                  <CardTitle className="text-lg text-grimoire-foreground grimoire-text-shadow font-inter">
                     Current Instruction
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-grimoire-foreground/90 text-lg">
+                  <p className="text-grimoire-foreground/90 text-lg font-inter">
                     {currentStep?.instruction}
                   </p>
                   <div className="mt-6 flex justify-center">
-                    <div className="w-16 h-16 rounded-full bg-grimoire-primary/20 flex items-center justify-center text-grimoire-primary text-2xl font-medium">
+                    <div className="w-16 h-16 rounded-full bg-grimoire-primary/20 flex items-center justify-center text-grimoire-primary text-2xl font-medium font-inter">
                       {timeRemaining}
                     </div>
                   </div>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                  <Button variant="outline" onClick={handleEndSession}>
+                  <Button variant="outline" onClick={handleEndSession} className="border-grimoire-accent/70 text-grimoire-accent hover:bg-grimoire-accent/10 font-medium">
                     End Session
                   </Button>
-                  <Button onClick={handleNextStep} className="bg-grimoire-primary hover:bg-grimoire-primary/90">
+                  <Button onClick={handleNextStep} className="bg-grimoire-primary hover:bg-grimoire-primary/90 text-primary-foreground font-medium">
                     {currentStepIndex < (activeSession?.steps.length || 0) - 1 ? (
                       <>Next Step</>
                     ) : (
@@ -391,7 +392,7 @@ const Practice = () => {
               
               <Card className="bg-grimoire-muted border-grimoire-border">
                 <CardHeader>
-                  <CardTitle className="text-lg text-grimoire-foreground grimoire-text-shadow">
+                  <CardTitle className="text-lg text-grimoire-foreground grimoire-text-shadow font-inter">
                     Session Progress
                   </CardTitle>
                 </CardHeader>
@@ -400,7 +401,7 @@ const Practice = () => {
                     {activeSession?.steps.map((step, index) => (
                       <div 
                         key={step.id}
-                        className={`flex items-center gap-3 p-2 rounded-md ${
+                        className={`flex items-center gap-3 p-2 rounded-md font-inter ${
                           index === currentStepIndex 
                             ? "bg-grimoire-primary/20 border border-grimoire-primary/40" 
                             : index < currentStepIndex 
@@ -409,9 +410,9 @@ const Practice = () => {
                         }`}
                       >
                         <div 
-                          className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 font-inter ${
                             index === currentStepIndex 
-                              ? "bg-grimoire-primary text-white" 
+                              ? "bg-grimoire-primary text-primary-foreground" // Changed text-white to text-primary-foreground
                               : index < currentStepIndex 
                                 ? "bg-grimoire-muted/80 text-grimoire-foreground/50" 
                                 : "bg-grimoire-muted/30 text-grimoire-foreground/50"
@@ -420,11 +421,11 @@ const Practice = () => {
                           {index < currentStepIndex ? (
                             <Check className="h-3 w-3" />
                           ) : (
-                            <span className="text-xs">{index + 1}</span>
+                            <span className="text-xs font-inter">{index + 1}</span>
                           )}
                         </div>
-                        <div className="text-sm truncate">{step.title}</div>
-                        <div className="ml-auto text-xs">{step.duration}m</div>
+                        <div className="text-sm truncate font-inter">{step.title}</div>
+                        <div className="ml-auto text-xs font-inter">{step.duration}m</div>
                       </div>
                     ))}
                   </div>

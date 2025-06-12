@@ -154,10 +154,10 @@ const Profile = () => {
   if (isLoading) {
     return (
       <GrimoireLayout>
-        <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[60vh]">
+        <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[60vh] font-inter">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-t-transparent border-grimoire-primary rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-grimoire-foreground/70">Loading profile...</p>
+            <p className="text-grimoire-foreground/70 font-inter">Loading profile...</p>
           </div>
         </div>
       </GrimoireLayout>
@@ -168,12 +168,12 @@ const Profile = () => {
 
   return (
     <GrimoireLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 font-inter">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-grimoire-primary grimoire-text-shadow animate-fade-in">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-grimoire-primary grimoire-text-shadow font-inter animate-fade-in">
             Spiritual Profile
           </h1>
-          <p className="text-grimoire-foreground/80 animate-fade-in">
+          <p className="text-grimoire-foreground/80 font-inter animate-fade-in">
             Manage your journey through the mystic realms
           </p>
         </div>
@@ -182,18 +182,18 @@ const Profile = () => {
           {/* Profile Summary Card */}
           <Card className="bg-grimoire-muted border-grimoire-border">
             <CardHeader className="relative pb-20">
-              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-r from-purple-600/30 to-indigo-600/30"></div>
+              <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-r from-grimoire-primary/30 to-grimoire-secondary/30"></div>
               <div className="relative z-10 flex flex-col items-center mt-10">
                 <Avatar className="w-24 h-24 border-4 border-grimoire-muted">
                   <AvatarImage src="" />
-                  <AvatarFallback className="bg-grimoire-primary text-white text-2xl">
+                  <AvatarFallback className="bg-grimoire-primary text-primary-foreground text-2xl">
                     {user.name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <CardTitle className="mt-4 text-xl text-grimoire-foreground grimoire-text-shadow">
+                <CardTitle className="mt-4 text-xl text-grimoire-foreground grimoire-text-shadow font-semibold font-inter">
                   {user.name}
                 </CardTitle>
-                <CardDescription className="text-grimoire-foreground/70">
+                <CardDescription className="text-grimoire-foreground/70 font-inter text-sm">
                   {user.email}
                 </CardDescription>
               </div>
@@ -201,31 +201,31 @@ const Profile = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-grimoire-foreground/70">Joined</span>
-                  <span className="text-sm">{user.joined}</span>
+                  <span className="text-sm text-grimoire-foreground/70 font-inter">Joined</span>
+                  <span className="text-sm text-grimoire-foreground font-inter">{user.joined}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-grimoire-foreground/70">Practice Sessions</span>
-                  <Badge variant="outline" className="bg-grimoire-background/50">
+                  <span className="text-sm text-grimoire-foreground/70 font-inter">Practice Sessions</span>
+                  <Badge variant="outline" className="bg-grimoire-background/50 border-grimoire-border text-grimoire-foreground/90 font-inter">
                     {sessionCount}
                   </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-grimoire-foreground/70">Favorite Texts</span>
-                  <Badge variant="outline" className="bg-grimoire-background/50">
+                  <span className="text-sm text-grimoire-foreground/70 font-inter">Favorite Texts</span>
+                  <Badge variant="outline" className="bg-grimoire-background/50 border-grimoire-border text-grimoire-foreground/90 font-inter">
                     {favoriteTexts}
                   </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-grimoire-foreground/70">Level</span>
-                  <Badge className="bg-grimoire-primary">Initiate</Badge>
+                  <span className="text-sm text-grimoire-foreground/70 font-inter">Level</span>
+                  <Badge className="bg-grimoire-primary text-primary-foreground font-inter">Initiate</Badge>
                 </div>
               </div>
             </CardContent>
             <CardFooter>
               <Button 
                 variant="outline" 
-                className="w-full border-grimoire-border hover:bg-grimoire-muted/60"
+                className="w-full border-grimoire-border text-grimoire-foreground/80 hover:bg-grimoire-muted/80 hover:text-grimoire-foreground font-medium"
                 onClick={handleSignOut}
               >
                 <LogOut className="h-4 w-4 mr-2" />
@@ -237,24 +237,24 @@ const Profile = () => {
           {/* Settings Tabs */}
           <Card className="md:col-span-2 bg-grimoire-muted border-grimoire-border">
             <CardHeader>
-              <CardTitle className="text-grimoire-foreground grimoire-text-shadow flex items-center">
+              <CardTitle className="text-grimoire-foreground font-semibold font-inter text-xl flex items-center">
                 <Settings className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
                 Account Settings
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="font-inter text-sm text-grimoire-foreground/70">
                 Manage your profile and account preferences
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="bg-grimoire-background grid grid-cols-3 mb-6">
-                  <TabsTrigger value="profile" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+                <TabsList className="bg-grimoire-background/70 backdrop-blur-sm border-b border-grimoire-border grid grid-cols-3 mb-6">
+                  <TabsTrigger value="profile" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
                     Profile
                   </TabsTrigger>
-                  <TabsTrigger value="security" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+                  <TabsTrigger value="security" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
                     Security
                   </TabsTrigger>
-                  <TabsTrigger value="preferences" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+                  <TabsTrigger value="preferences" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
                     Preferences
                   </TabsTrigger>
                 </TabsList>
@@ -271,23 +271,23 @@ const Profile = () => {
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="name">Display Name</Label>
+                          <Label htmlFor="name" className="text-grimoire-foreground/90 font-inter text-sm">Display Name</Label>
                           <Input 
                             id="name" 
                             name="name"
                             defaultValue={user.name}
-                            className="bg-grimoire-background border-grimoire-border"
+                            className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="email">Email</Label>
+                          <Label htmlFor="email" className="text-grimoire-foreground/90 font-inter text-sm">Email</Label>
                           <Input 
                             id="email" 
                             value={user.email}
                             disabled
-                            className="bg-grimoire-background border-grimoire-border opacity-70"
+                            className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter opacity-70"
                           />
-                          <p className="text-xs text-grimoire-foreground/50">
+                          <p className="text-xs text-grimoire-foreground/50 font-inter">
                             Email cannot be changed
                           </p>
                         </div>
@@ -295,7 +295,7 @@ const Profile = () => {
                       
                       <Button 
                         type="submit" 
-                        className="bg-grimoire-primary hover:bg-grimoire-primary/90"
+                        className="bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium"
                         disabled={isLoading}
                       >
                         Update Profile
@@ -317,30 +317,30 @@ const Profile = () => {
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="newPassword">New Password</Label>
+                          <Label htmlFor="newPassword" className="text-grimoire-foreground/90 font-inter text-sm">New Password</Label>
                           <Input 
                             id="newPassword"
                             name="newPassword"
                             type="password" 
                             placeholder="••••••••"
-                            className="bg-grimoire-background border-grimoire-border"
+                            className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="confirmPassword">Confirm Password</Label>
+                          <Label htmlFor="confirmPassword" className="text-grimoire-foreground/90 font-inter text-sm">Confirm Password</Label>
                           <Input 
                             id="confirmPassword"
                             name="confirmPassword"
                             type="password" 
                             placeholder="••••••••"
-                            className="bg-grimoire-background border-grimoire-border"
+                            className="bg-grimoire-background border-grimoire-border text-grimoire-foreground focus:ring-grimoire-primary placeholder:text-grimoire-foreground/50 font-inter"
                           />
                         </div>
                       </div>
                       
                       <Button 
                         type="submit" 
-                        className="bg-grimoire-primary hover:bg-grimoire-primary/90"
+                        className="bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium"
                         disabled={isLoading}
                       >
                         Update Password
@@ -348,12 +348,12 @@ const Profile = () => {
                     </div>
                   </form>
                   
-                  <div className="rounded-md bg-grimoire-background border border-grimoire-border p-4 mt-6">
+                  <div className="rounded-md bg-grimoire-background border-grimoire-border p-4 mt-6">
                     <div className="flex items-start gap-3">
                       <Shield className="h-5 w-5 text-grimoire-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-sm font-medium mb-1">Account Security</h4>
-                        <p className="text-xs text-grimoire-foreground/70">
+                        <h4 className="text-sm font-medium text-grimoire-foreground font-inter mb-1">Account Security</h4>
+                        <p className="text-xs text-grimoire-foreground/70 font-inter">
                           Your account is secured with email authentication. For additional security, consider using a strong, unique password.
                         </p>
                       </div>
@@ -364,39 +364,39 @@ const Profile = () => {
                 <TabsContent value="preferences" className="space-y-4">
                   <div className="space-y-4">
                     <div className="space-y-3">
-                      <h3 className="text-sm font-medium">Notifications</h3>
+                      <h3 className="text-sm font-medium text-grimoire-foreground/90 font-inter">Notifications</h3>
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
                           <Checkbox id="notifications-practice" defaultChecked />
-                          <Label htmlFor="notifications-practice">Practice reminders</Label>
+                          <Label htmlFor="notifications-practice" className="text-sm font-medium text-grimoire-foreground/90 font-inter">Practice reminders</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Checkbox id="notifications-content" defaultChecked />
-                          <Label htmlFor="notifications-content">New content alerts</Label>
+                          <Label htmlFor="notifications-content" className="text-sm font-medium text-grimoire-foreground/90 font-inter">New content alerts</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Checkbox id="notifications-community" />
-                          <Label htmlFor="notifications-community">Community updates</Label>
+                          <Label htmlFor="notifications-community" className="text-sm font-medium text-grimoire-foreground/90 font-inter">Community updates</Label>
                         </div>
                       </div>
                     </div>
                     
                     <div className="space-y-3">
-                      <h3 className="text-sm font-medium">Display Preferences</h3>
+                      <h3 className="text-sm font-medium text-grimoire-foreground/90 font-inter">Display Preferences</h3>
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
                           <Checkbox id="animations" defaultChecked />
-                          <Label htmlFor="animations">Enable animations</Label>
+                          <Label htmlFor="animations" className="text-sm font-medium text-grimoire-foreground/90 font-inter">Enable animations</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Checkbox id="sounds" />
-                          <Label htmlFor="sounds">Enable ambient sounds</Label>
+                          <Label htmlFor="sounds" className="text-sm font-medium text-grimoire-foreground/90 font-inter">Enable ambient sounds</Label>
                         </div>
                       </div>
                     </div>
                     
                     <Button 
-                      className="bg-grimoire-primary hover:bg-grimoire-primary/90"
+                      className="bg-grimoire-primary text-primary-foreground hover:bg-grimoire-primary/90 font-medium"
                     >
                       Save Preferences
                     </Button>
@@ -408,7 +408,7 @@ const Profile = () => {
           
           {/* Progress Section */}
           <div className="md:col-span-3">
-            <h2 className="text-2xl font-bold mb-4 text-grimoire-foreground grimoire-text-shadow">
+            <h2 className="text-2xl font-bold mb-4 text-grimoire-foreground grimoire-text-shadow font-inter">
               Your Spiritual Journey
             </h2>
             
@@ -416,7 +416,7 @@ const Profile = () => {
               <Card className="bg-grimoire-muted border-grimoire-border hover:border-grimoire-primary/70 transition-all duration-300">
                 <CardHeader>
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg grimoire-text-shadow flex items-center">
+                    <CardTitle className="text-lg font-semibold text-grimoire-foreground font-inter flex items-center">
                       <Star className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
                       Recent Practices
                     </CardTitle>
@@ -431,10 +431,10 @@ const Profile = () => {
                     ].map((practice, i) => (
                       <div key={i} className="flex justify-between items-center border-b border-grimoire-border pb-2 last:border-0">
                         <div>
-                          <p className="text-sm font-medium">{practice.title}</p>
-                          <p className="text-xs text-grimoire-foreground/60">{practice.date}</p>
+                          <p className="text-sm font-medium text-grimoire-foreground font-inter">{practice.title}</p>
+                          <p className="text-xs text-grimoire-foreground/60 font-inter">{practice.date}</p>
                         </div>
-                        <Badge variant="outline">{practice.duration}</Badge>
+                        <Badge variant="outline" className="border-grimoire-border bg-grimoire-background/50 text-grimoire-foreground/80 font-inter">{practice.duration}</Badge>
                       </div>
                     ))}
                   </div>
@@ -442,7 +442,7 @@ const Profile = () => {
                 <CardFooter>
                   <Button 
                     variant="outline" 
-                    className="w-full hover:bg-grimoire-muted/60"
+                    className="w-full hover:bg-grimoire-muted/60 border-grimoire-border text-grimoire-foreground/80 hover:text-grimoire-foreground font-medium"
                     onClick={() => navigate('/practice')}
                   >
                     <Clock className="h-4 w-4 mr-2" />
@@ -454,7 +454,7 @@ const Profile = () => {
               <Card className="bg-grimoire-muted border-grimoire-border hover:border-grimoire-primary/70 transition-all duration-300">
                 <CardHeader>
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg grimoire-text-shadow flex items-center">
+                    <CardTitle className="text-lg font-semibold text-grimoire-foreground font-inter flex items-center">
                       <BookOpen className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
                       Saved Texts
                     </CardTitle>
@@ -468,8 +468,8 @@ const Profile = () => {
                       { title: "Liberating Knowledge", source: "Tripura Doctrine" }
                     ].map((text, i) => (
                       <div key={i} className="border-b border-grimoire-border pb-2 last:border-0">
-                        <p className="text-sm font-medium">{text.title}</p>
-                        <p className="text-xs text-grimoire-foreground/60">{text.source}</p>
+                        <p className="text-sm font-medium text-grimoire-foreground font-inter">{text.title}</p>
+                        <p className="text-xs text-grimoire-foreground/60 font-inter">{text.source}</p>
                       </div>
                     ))}
                   </div>
@@ -477,7 +477,7 @@ const Profile = () => {
                 <CardFooter>
                   <Button 
                     variant="outline" 
-                    className="w-full hover:bg-grimoire-muted/60"
+                    className="w-full hover:bg-grimoire-muted/60 border-grimoire-border text-grimoire-foreground/80 hover:text-grimoire-foreground font-medium"
                     onClick={() => navigate('/codex')}
                   >
                     <BookOpen className="h-4 w-4 mr-2" />
@@ -489,7 +489,7 @@ const Profile = () => {
               <Card className="bg-grimoire-muted border-grimoire-border hover:border-grimoire-primary/70 transition-all duration-300">
                 <CardHeader>
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg grimoire-text-shadow flex items-center">
+                    <CardTitle className="text-lg font-semibold text-grimoire-foreground font-inter flex items-center">
                       <User className="h-5 w-5 mr-2 text-grimoire-primary grimoire-glow" />
                       Path Progress
                     </CardTitle>
@@ -498,42 +498,42 @@ const Profile = () => {
                 <CardContent>
                   <div className="space-y-4">
                     <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Meditation</span>
-                        <span>60%</span>
+                      <div className="flex justify-between text-sm mb-1 font-inter">
+                        <span className="text-grimoire-foreground/70">Meditation</span>
+                        <span className="text-grimoire-foreground">60%</span>
                       </div>
                       <div className="w-full bg-grimoire-background rounded-full h-2">
-                        <div className="bg-purple-600 h-2 rounded-full" style={{ width: "60%" }}></div>
+                        <div className="bg-grimoire-primary h-2 rounded-full" style={{ width: "60%" }}></div>
                       </div>
                     </div>
                     
                     <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Energy Work</span>
-                        <span>45%</span>
+                      <div className="flex justify-between text-sm mb-1 font-inter">
+                        <span className="text-grimoire-foreground/70">Energy Work</span>
+                        <span className="text-grimoire-foreground">45%</span>
                       </div>
                       <div className="w-full bg-grimoire-background rounded-full h-2">
-                        <div className="bg-blue-600 h-2 rounded-full" style={{ width: "45%" }}></div>
+                        <div className="bg-grimoire-secondary h-2 rounded-full" style={{ width: "45%" }}></div>
                       </div>
                     </div>
                     
                     <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Protection</span>
-                        <span>80%</span>
+                      <div className="flex justify-between text-sm mb-1 font-inter">
+                        <span className="text-grimoire-foreground/70">Protection</span>
+                        <span className="text-grimoire-foreground">80%</span>
                       </div>
                       <div className="w-full bg-grimoire-background rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full" style={{ width: "80%" }}></div>
+                        <div className="bg-green-500 h-2 rounded-full" style={{ width: "80%" }}></div>
                       </div>
                     </div>
                     
                     <div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>Projection</span>
-                        <span>25%</span>
+                      <div className="flex justify-between text-sm mb-1 font-inter">
+                        <span className="text-grimoire-foreground/70">Projection</span>
+                        <span className="text-grimoire-foreground">25%</span>
                       </div>
                       <div className="w-full bg-grimoire-background rounded-full h-2">
-                        <div className="bg-amber-600 h-2 rounded-full" style={{ width: "25%" }}></div>
+                        <div className="bg-yellow-500 h-2 rounded-full" style={{ width: "25%" }}></div>
                       </div>
                     </div>
                   </div>
@@ -541,7 +541,7 @@ const Profile = () => {
                 <CardFooter>
                   <Button 
                     variant="outline" 
-                    className="w-full hover:bg-grimoire-muted/60"
+                    className="w-full hover:bg-grimoire-muted/60 border-grimoire-border text-grimoire-foreground/80 hover:text-grimoire-foreground font-medium"
                     onClick={() => navigate('/practice')}
                   >
                     <Star className="h-4 w-4 mr-2" />

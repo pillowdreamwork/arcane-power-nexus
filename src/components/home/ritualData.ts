@@ -8,6 +8,8 @@ export interface RitualData {
   icon: any; // Using any for simplicity, but ideally would be React.ElementType
   color: string;
   difficulty: string;
+  grimoireLinkType?: 'category' | 'id' | 'search';
+  grimoireLinkValue?: string;
 }
 
 export const ritualCards: RitualData[] = [
@@ -17,7 +19,9 @@ export const ritualCards: RitualData[] = [
     description: "Sever energetic chains and reclaim lost power",
     icon: Triangle,
     color: "#EF4444", // Red
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    grimoireLinkType: 'search',
+    grimoireLinkValue: 'liberation binding'
   },
   {
     id: "entity-summoning",
@@ -25,7 +29,9 @@ export const ritualCards: RitualData[] = [
     description: "Conjure and communicate with ethereal beings",
     icon: Hexagon,
     color: "#8B5CF6", // Purple
-    difficulty: "Master"
+    difficulty: "Master",
+    grimoireLinkType: 'category',
+    grimoireLinkValue: 'invocation'
   },
   {
     id: "protection",
@@ -33,7 +39,9 @@ export const ritualCards: RitualData[] = [
     description: "Create an impenetrable energy shield",
     icon: Shield,
     color: "#3B82F6", // Blue
-    difficulty: "Intermediate"
+    difficulty: "Intermediate",
+    grimoireLinkType: 'category',
+    grimoireLinkValue: 'protection'
   },
   {
     id: "energy-harvest",
@@ -41,7 +49,9 @@ export const ritualCards: RitualData[] = [
     description: "Collect and store ambient spiritual energy",
     icon: Zap,
     color: "#F59E0B", // Amber
-    difficulty: "Intermediate"
+    difficulty: "Intermediate",
+    grimoireLinkType: 'search',
+    grimoireLinkValue: 'elemental energy manifestation'
   },
   {
     id: "astral-projection",
@@ -49,7 +59,9 @@ export const ritualCards: RitualData[] = [
     description: "Travel beyond physical limitations",
     icon: Star,
     color: "#10B981", // Emerald
-    difficulty: "Advanced"
+    difficulty: "Advanced",
+    grimoireLinkType: 'search',
+    grimoireLinkValue: 'astral travel out of body projection'
   },
   {
     id: "reality-manipulation",
@@ -57,6 +69,8 @@ export const ritualCards: RitualData[] = [
     description: "Bend the fabric of existence to your will",
     icon: Circle,
     color: "#6366F1", // Indigo
-    difficulty: "Master"
+    difficulty: "Master",
+    grimoireLinkType: 'search',
+    grimoireLinkValue: 'transmutation reality bending'
   }
 ];

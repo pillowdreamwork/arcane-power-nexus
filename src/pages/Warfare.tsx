@@ -130,32 +130,32 @@ const Warfare = () => {
 
   return (
     <GrimoireLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 font-inter">
         <div className="flex items-center mb-8">
-          <Zap className="h-8 w-8 mr-3 text-[#EF4444] grimoire-glow" />
+          <Zap className="h-8 w-8 mr-3 text-grimoire-accent grimoire-glow" />
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-grimoire-primary grimoire-text-shadow">
+            <h1 className="text-3xl md:text-4xl font-bold text-grimoire-primary grimoire-text-shadow font-inter">
               Psychic Warfare
             </h1>
-            <p className="text-grimoire-foreground/80">
+            <p className="text-grimoire-foreground/80 font-inter">
               Combat systems and entity control
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <Card className="lg:col-span-2 bg-grimoire-muted border-grimoire-border grimoire-border">
+          <Card className="lg:col-span-2 bg-grimoire-muted border-grimoire-border">
             <CardHeader>
-              <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+              <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter">
                 Energy Allocation
               </CardTitle>
-              <CardDescription className="text-grimoire-foreground/70">
+              <CardDescription className="text-grimoire-foreground/70 font-inter">
                 Balance your spiritual resources for maximum effectiveness
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-8">
               <div>
-                <div className="flex justify-between mb-2">
+                <div className="flex justify-between mb-2 font-inter">
                   <label className="text-grimoire-foreground">Offensive Power</label>
                   <span className="text-grimoire-foreground">{energyAllocation.offense}%</span>
                 </div>
@@ -165,13 +165,13 @@ const Warfare = () => {
                   max={100} 
                   step={5}
                   onValueChange={(value) => handleAllocationChange("offense", value)}
-                  className="mb-6"
+                  className="mb-6 [&>.track]:bg-grimoire-border [&>.thumb]:bg-grimoire-primary [&>.thumb]:focus-visible:ring-grimoire-primary"
                 />
-                <Progress value={energyAllocation.offense} className="h-2 bg-grimoire-background" />
+                <Progress value={energyAllocation.offense} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
               </div>
               
               <div>
-                <div className="flex justify-between mb-2">
+                <div className="flex justify-between mb-2 font-inter">
                   <label className="text-grimoire-foreground">Defensive Barriers</label>
                   <span className="text-grimoire-foreground">{energyAllocation.defense}%</span>
                 </div>
@@ -181,13 +181,13 @@ const Warfare = () => {
                   max={100} 
                   step={5}
                   onValueChange={(value) => handleAllocationChange("defense", value)}
-                  className="mb-6"
+                  className="mb-6 [&>.track]:bg-grimoire-border [&>.thumb]:bg-grimoire-primary [&>.thumb]:focus-visible:ring-grimoire-primary"
                 />
-                <Progress value={energyAllocation.defense} className="h-2 bg-grimoire-background" />
+                <Progress value={energyAllocation.defense} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-secondary" />
               </div>
               
               <div>
-                <div className="flex justify-between mb-2">
+                <div className="flex justify-between mb-2 font-inter">
                   <label className="text-grimoire-foreground">Energy Recovery</label>
                   <span className="text-grimoire-foreground">{energyAllocation.recovery}%</span>
                 </div>
@@ -197,15 +197,15 @@ const Warfare = () => {
                   max={100} 
                   step={5}
                   onValueChange={(value) => handleAllocationChange("recovery", value)}
-                  className="mb-6"
+                  className="mb-6 [&>.track]:bg-grimoire-border [&>.thumb]:bg-grimoire-primary [&>.thumb]:focus-visible:ring-grimoire-primary"
                 />
-                <Progress value={energyAllocation.recovery} className="h-2 bg-grimoire-background" />
+                <Progress value={energyAllocation.recovery} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-accent" />
               </div>
             </CardContent>
             <CardFooter className="border-t border-grimoire-border pt-6">
               <div className="w-full">
-                <h3 className="text-grimoire-foreground mb-2 font-medium">Current Balance Assessment:</h3>
-                <p className="text-grimoire-foreground/90">
+                <h3 className="text-grimoire-foreground mb-2 font-medium font-inter">Current Balance Assessment:</h3>
+                <p className="text-grimoire-foreground/90 font-inter">
                   {energyAllocation.offense > 50 
                     ? "Highly aggressive stance. Effective for offensive operations but vulnerable to counterattack." 
                     : energyAllocation.defense > 50 
@@ -218,49 +218,49 @@ const Warfare = () => {
             </CardFooter>
           </Card>
 
-          <Card className="bg-grimoire-muted border-grimoire-border grimoire-border">
+          <Card className="bg-grimoire-muted border-grimoire-border">
             <CardHeader>
-              <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+              <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter">
                 Combat Status
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <div className="flex justify-between text-sm mb-1">
+                <div className="flex justify-between text-sm mb-1 font-inter">
                   <span className="text-grimoire-foreground/70">Energy Reserves</span>
                   <span className="text-grimoire-foreground">85%</span>
                 </div>
-                <Progress value={85} className="h-2 bg-grimoire-background" />
+                <Progress value={85} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
               </div>
               
               <div>
-                <div className="flex justify-between text-sm mb-1">
+                <div className="flex justify-between text-sm mb-1 font-inter">
                   <span className="text-grimoire-foreground/70">Defensive Integrity</span>
                   <span className="text-grimoire-foreground">93%</span>
                 </div>
-                <Progress value={93} className="h-2 bg-grimoire-background" />
+                <Progress value={93} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-secondary" />
               </div>
               
               <div>
-                <div className="flex justify-between text-sm mb-1">
+                <div className="flex justify-between text-sm mb-1 font-inter">
                   <span className="text-grimoire-foreground/70">Offensive Readiness</span>
                   <span className="text-grimoire-foreground">78%</span>
                 </div>
-                <Progress value={78} className="h-2 bg-grimoire-background" />
+                <Progress value={78} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-accent" />
               </div>
               
               <div>
-                <div className="flex justify-between text-sm mb-1">
+                <div className="flex justify-between text-sm mb-1 font-inter">
                   <span className="text-grimoire-foreground/70">Entity Alignment</span>
                   <span className="text-grimoire-foreground">97%</span>
                 </div>
-                <Progress value={97} className="h-2 bg-grimoire-background" />
+                <Progress value={97} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
               </div>
               
               <div className="pt-2">
-                <h3 className="text-sm font-medium text-grimoire-foreground mb-2">Current Threats:</h3>
-                <div className="flex items-center text-grimoire-foreground/70 text-sm">
-                  <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                <h3 className="text-sm font-medium text-grimoire-foreground font-inter mb-2">Current Threats:</h3>
+                <div className="flex items-center text-grimoire-foreground/70 text-sm font-inter">
+                  <div className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></div>
                   <span>No immediate threats detected</span>
                 </div>
               </div>
@@ -269,14 +269,14 @@ const Warfare = () => {
         </div>
 
         <Tabs defaultValue="defense" className="w-full">
-          <TabsList className="bg-grimoire-muted border border-grimoire-border mb-6">
-            <TabsTrigger value="defense" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+          <TabsList className="bg-grimoire-muted/50 border-b border-grimoire-border rounded-t-lg mb-6">
+            <TabsTrigger value="defense" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
               Defensive Techniques
             </TabsTrigger>
-            <TabsTrigger value="offense" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+            <TabsTrigger value="offense" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
               Offensive Techniques
             </TabsTrigger>
-            <TabsTrigger value="entities" className="data-[state=active]:bg-grimoire-primary data-[state=active]:text-white">
+            <TabsTrigger value="entities" className="text-grimoire-foreground/70 data-[state=active]:text-grimoire-primary data-[state=active]:bg-grimoire-muted font-medium">
               Entity Allies
             </TabsTrigger>
           </TabsList>
@@ -289,20 +289,20 @@ const Warfare = () => {
                   className={`bg-grimoire-muted border-grimoire-border transition-all duration-300 ${
                     selectedTechnique === technique.id 
                       ? "border-grimoire-primary grimoire-glow" 
-                      : "grimoire-border hover:border-grimoire-primary/60"
+                      : "hover:border-grimoire-primary/60"
                   }`}
                   onClick={() => setSelectedTechnique(technique.id)}
                 >
                   <CardHeader>
-                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter">
                       {technique.name}
                     </CardTitle>
-                    <CardDescription className="text-grimoire-foreground/70">
+                    <CardDescription className="text-grimoire-foreground/70 font-inter">
                       {technique.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-2 gap-4 text-sm font-inter">
                       <div>
                         <p className="text-grimoire-foreground/70">Energy Cost</p>
                         <p className="text-grimoire-foreground">{technique.energyCost}</p>
@@ -314,16 +314,16 @@ const Warfare = () => {
                     </div>
                     
                     <div>
-                      <div className="flex justify-between text-sm mb-1">
+                      <div className="flex justify-between text-sm mb-1 font-inter">
                         <span className="text-grimoire-foreground/70">Effectiveness</span>
                         <span className="text-grimoire-foreground">{technique.effectiveness}%</span>
                       </div>
-                      <Progress value={technique.effectiveness} className="h-2 bg-grimoire-background" />
+                      <Progress value={technique.effectiveness} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
                     </div>
                   </CardContent>
                   <CardFooter>
                     <Button 
-                      className="w-full" 
+                      className={`w-full font-medium ${selectedTechnique === technique.id ? 'bg-grimoire-primary text-primary-foreground' : 'border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10'}`}
                       variant={selectedTechnique === technique.id ? "default" : "outline"}
                     >
                       {selectedTechnique === technique.id ? "Selected" : "Select Technique"}
@@ -342,20 +342,20 @@ const Warfare = () => {
                   className={`bg-grimoire-muted border-grimoire-border transition-all duration-300 ${
                     selectedTechnique === technique.id 
                       ? "border-grimoire-primary grimoire-glow" 
-                      : "grimoire-border hover:border-grimoire-primary/60"
+                      : "hover:border-grimoire-primary/60"
                   }`}
                   onClick={() => setSelectedTechnique(technique.id)}
                 >
                   <CardHeader>
-                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter">
                       {technique.name}
                     </CardTitle>
-                    <CardDescription className="text-grimoire-foreground/70">
+                    <CardDescription className="text-grimoire-foreground/70 font-inter">
                       {technique.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-2 gap-4 text-sm font-inter">
                       <div>
                         <p className="text-grimoire-foreground/70">Energy Cost</p>
                         <p className="text-grimoire-foreground">{technique.energyCost}</p>
@@ -367,16 +367,16 @@ const Warfare = () => {
                     </div>
                     
                     <div>
-                      <div className="flex justify-between text-sm mb-1">
+                      <div className="flex justify-between text-sm mb-1 font-inter">
                         <span className="text-grimoire-foreground/70">Effectiveness</span>
                         <span className="text-grimoire-foreground">{technique.effectiveness}%</span>
                       </div>
-                      <Progress value={technique.effectiveness} className="h-2 bg-grimoire-background" />
+                      <Progress value={technique.effectiveness} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
                     </div>
                   </CardContent>
                   <CardFooter>
                     <Button 
-                      className="w-full" 
+                      className={`w-full font-medium ${selectedTechnique === technique.id ? 'bg-grimoire-primary text-primary-foreground' : 'border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10'}`}
                       variant={selectedTechnique === technique.id ? "default" : "outline"}
                     >
                       {selectedTechnique === technique.id ? "Selected" : "Select Technique"}
@@ -395,20 +395,20 @@ const Warfare = () => {
                   className={`bg-grimoire-muted border-grimoire-border transition-all duration-300 ${
                     selectedTechnique === entity.id 
                       ? "border-grimoire-primary grimoire-glow" 
-                      : "grimoire-border hover:border-grimoire-primary/60"
+                      : "hover:border-grimoire-primary/60"
                   }`}
                   onClick={() => setSelectedTechnique(entity.id)}
                 >
                   <CardHeader>
-                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter">
                       {entity.name}
                     </CardTitle>
-                    <CardDescription className="text-grimoire-foreground/70">
+                    <CardDescription className="text-grimoire-foreground/70 font-inter">
                       {entity.description}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-2 gap-4 text-sm font-inter">
                       <div>
                         <p className="text-grimoire-foreground/70">Summoning</p>
                         <p className="text-grimoire-foreground">{entity.summoning}</p>
@@ -420,16 +420,16 @@ const Warfare = () => {
                     </div>
                     
                     <div>
-                      <div className="flex justify-between text-sm mb-1">
+                      <div className="flex justify-between text-sm mb-1 font-inter">
                         <span className="text-grimoire-foreground/70">Power Rating</span>
                         <span className="text-grimoire-foreground">{entity.power}/100</span>
                       </div>
-                      <Progress value={entity.power} className="h-2 bg-grimoire-background" />
+                      <Progress value={entity.power} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
                     </div>
                   </CardContent>
                   <CardFooter>
                     <Button 
-                      className="w-full" 
+                      className={`w-full font-medium ${selectedTechnique === entity.id ? 'bg-grimoire-primary text-primary-foreground' : 'border-grimoire-primary/60 text-grimoire-primary hover:bg-grimoire-primary/10'}`}
                       variant={selectedTechnique === entity.id ? "default" : "outline"}
                     >
                       {selectedTechnique === entity.id ? "Active" : "Summon Entity"}

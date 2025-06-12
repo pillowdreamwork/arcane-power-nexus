@@ -53,15 +53,15 @@ const Liberation = () => {
 
   return (
     <GrimoireLayout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-grimoire-primary mb-4">Liberation System</h1>
+      <div className="container mx-auto px-4 py-8 font-inter">
+        <h1 className="text-3xl font-bold text-grimoire-primary mb-4 font-inter">Liberation System</h1>
         <div className="mb-6">
-          <p className="text-grimoire-foreground/80">Step-by-step guide to psychic liberation.</p>
+          <p className="text-grimoire-foreground/80 font-inter">Step-by-step guide to psychic liberation.</p>
         </div>
 
         <div className="mb-8">
-          <Progress value={progress} className="h-2 bg-grimoire-muted" />
-          <div className="flex justify-between mt-2 text-xs text-grimoire-foreground/70">
+          <Progress value={progress} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
+          <div className="flex justify-between mt-2 text-xs text-grimoire-foreground/70 font-inter">
             <span>Recognition</span>
             <span>Release</span>
           </div>
@@ -69,34 +69,34 @@ const Liberation = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="lg:col-span-2">
-            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border h-full">
+            <Card className="bg-grimoire-muted border-grimoire-border h-full">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <span className="w-8 h-8 flex items-center justify-center bg-[#EF4444] text-white rounded-full mr-3 grimoire-glow">
+                    <span className="w-8 h-8 flex items-center justify-center bg-grimoire-accent text-white rounded-full mr-3 grimoire-glow font-bold">
                       {activeStep + 1}
                     </span>
-                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                    <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter">
                       {liberationSteps[activeStep].title}
                     </CardTitle>
                   </div>
-                  <span className="text-xs px-3 py-1 bg-grimoire-background border border-grimoire-border rounded-full">
+                  <Badge className="text-xs px-3 py-1 bg-grimoire-background border-grimoire-border text-grimoire-foreground/80 font-inter">
                     Phase {activeStep + 1} of {liberationSteps.length}
-                  </span>
+                  </Badge>
                 </div>
-                <CardDescription className="text-grimoire-foreground/70">
+                <CardDescription className="text-grimoire-foreground/70 font-inter">
                   {liberationSteps[activeStep].description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="bg-grimoire-background p-6 rounded-md border border-grimoire-border">
-                  <h3 className="text-grimoire-primary mb-4 font-medium">Instructions:</h3>
-                  <p className="text-grimoire-foreground/90 mb-6">
+                  <h3 className="text-grimoire-primary mb-4 font-medium font-inter">Instructions:</h3>
+                  <p className="text-grimoire-foreground/90 mb-6 font-inter">
                     {liberationSteps[activeStep].instructions}
                   </p>
 
-                  <div className="border-l-2 border-[#EF4444]/60 pl-4 py-1 mb-6">
-                    <p className="italic text-grimoire-foreground/80">
+                  <div className="border-l-2 border-grimoire-accent/60 pl-4 py-1 mb-6">
+                    <p className="italic text-grimoire-foreground/80 font-inter">
                       "The prison exists only because you believe it does. See the truth, and the walls dissolve."
                     </p>
                   </div>
@@ -106,12 +106,13 @@ const Liberation = () => {
                       variant="outline" 
                       onClick={previousStep}
                       disabled={activeStep === 0}
+                      className="border-grimoire-border text-grimoire-foreground/80 hover:bg-grimoire-muted/70 font-medium"
                     >
                       Previous Step
                     </Button>
                     <Button 
                       onClick={advanceStep} 
-                      className="bg-[#EF4444] hover:bg-[#ef4444]/90"
+                      className="bg-grimoire-accent hover:bg-grimoire-accent/90 text-white font-medium"
                       disabled={activeStep === liberationSteps.length - 1}
                     >
                       Continue
@@ -123,62 +124,62 @@ const Liberation = () => {
           </div>
 
           <div>
-            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border mb-6">
+            <Card className="bg-grimoire-muted border-grimoire-border mb-6">
               <CardHeader>
-                <CardTitle className="text-grimoire-foreground grimoire-text-shadow flex items-center">
-                  <Zap className="h-5 w-5 mr-2 text-[#EF4444]" />
+                <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter flex items-center">
+                  <Zap className="h-5 w-5 mr-2 text-grimoire-accent" />
                   Energy Status
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <div className="flex justify-between text-sm mb-1">
+                    <div className="flex justify-between text-sm mb-1 font-inter">
                       <span className="text-grimoire-foreground/70">Resistance Level</span>
                       <span className="text-grimoire-foreground">Medium</span>
                     </div>
-                    <Progress value={60} className="h-2 bg-grimoire-background" />
+                    <Progress value={60} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-primary" />
                   </div>
                   <div>
-                    <div className="flex justify-between text-sm mb-1">
+                    <div className="flex justify-between text-sm mb-1 font-inter">
                       <span className="text-grimoire-foreground/70">Liberation Energy</span>
                       <span className="text-grimoire-foreground">Rising</span>
                     </div>
-                    <Progress value={45} className="h-2 bg-grimoire-background" />
+                    <Progress value={45} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-secondary" />
                   </div>
                   <div>
-                    <div className="flex justify-between text-sm mb-1">
+                    <div className="flex justify-between text-sm mb-1 font-inter">
                       <span className="text-grimoire-foreground/70">Psychic Clarity</span>
                       <span className="text-grimoire-foreground">Clear</span>
                     </div>
-                    <Progress value={75} className="h-2 bg-grimoire-background" />
+                    <Progress value={75} className="h-2 bg-grimoire-border [&>[data-slot=indicator]]:bg-grimoire-accent" />
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-grimoire-muted border-grimoire-border grimoire-border">
+            <Card className="bg-grimoire-muted border-grimoire-border">
               <CardHeader>
-                <CardTitle className="text-grimoire-foreground grimoire-text-shadow">
+                <CardTitle className="text-grimoire-foreground grimoire-text-shadow font-inter">
                   Liberation Notes
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-grimoire-foreground/90 text-sm">
+                <ul className="space-y-2 text-grimoire-foreground/90 text-sm font-inter">
                   <li className="flex items-start">
-                    <div className="h-2 w-2 mt-2 mr-2 bg-[#EF4444] rounded-full"></div>
+                    <div className="h-2 w-2 mt-1.5 mr-2 bg-grimoire-accent rounded-full shrink-0"></div>
                     <span>Most psychic prisons are self-reinforcing through thought patterns</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="h-2 w-2 mt-2 mr-2 bg-[#EF4444] rounded-full"></div>
+                    <div className="h-2 w-2 mt-1.5 mr-2 bg-grimoire-accent rounded-full shrink-0"></div>
                     <span>The moment of breakthrough often feels like a sudden expansion or falling sensation</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="h-2 w-2 mt-2 mr-2 bg-[#EF4444] rounded-full"></div>
+                    <div className="h-2 w-2 mt-1.5 mr-2 bg-grimoire-accent rounded-full shrink-0"></div>
                     <span>After liberation, establish new energy patterns immediately to prevent reformation</span>
                   </li>
                   <li className="flex items-start">
-                    <div className="h-2 w-2 mt-2 mr-2 bg-[#EF4444] rounded-full"></div>
+                    <div className="h-2 w-2 mt-1.5 mr-2 bg-grimoire-accent rounded-full shrink-0"></div>
                     <span>Some entities may attempt to re-establish bindings during vulnerable transitions</span>
                   </li>
                 </ul>

@@ -213,7 +213,7 @@ const RitualScene = ({
         castShadow
       >
         <boxGeometry args={[0.8, 0.3, 1.2]} />
-        <meshStandardMaterial color={altarItems.includes("Grimoire") ? "#facc15" : "#78350f"} />
+        <meshStandardMaterial color={altarItems.includes("Grimoire") ? "#facc15" : "#312E81"} />
         <Text position={[0, 0.2, 0]} fontSize={0.2} color="white" anchorX="center">
           {altarItems.includes("Grimoire") ? "Grimoire Open" : "Place Grimoire"}
         </Text>
