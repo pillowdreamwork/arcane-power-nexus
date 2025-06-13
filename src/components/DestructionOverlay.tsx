@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { skull, zap, bomb } from 'lucide-react';
+import { Skull, Zap, Bomb } from 'lucide-react';
 
 const DestructionOverlay: React.FC = () => {
   const [destructionLevel, setDestructionLevel] = useState(0);
@@ -54,19 +54,19 @@ const DestructionOverlay: React.FC = () => {
       {/* Warning icons */}
       {destructionLevel > 30 && (
         <div className="absolute top-20 left-20 text-red-500 animate-spin">
-          <skull size={48} />
+          <Skull size={48} />
         </div>
       )}
       
       {destructionLevel > 60 && (
         <div className="absolute bottom-20 right-20 text-yellow-500 animate-pulse">
-          <zap size={64} />
+          <Zap size={64} />
         </div>
       )}
       
       {destructionLevel > 90 && (
         <div className="absolute top-1/3 left-1/4 text-orange-500 animate-bounce">
-          <bomb size={72} />
+          <Bomb size={72} />
         </div>
       )}
 
