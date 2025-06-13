@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import React, { useState } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield, Star, VolumeX } from "lucide-react"; // Added Star and VolumeX
-import SacredGeometry from "@/components/ui/SacredGeometry"; // Import SacredGeometry
+import { Shield, Star, VolumeX } from "lucide-react";
+import SacredGeometry from "@/components/ui/SacredGeometry";
 
 const Armory = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -210,8 +209,8 @@ const Armory = () => {
                       <SacredGeometry
                         name={
                           yantra.id === "yantra1" ? "SriYantraPlaceholder" :
-                          yantra.id === "yantra2" ? "Hexagram" : // Placeholder, specific geometry can be added later
-                          "FlowerOfLifeSegment" // Default for other yantras
+                          yantra.id === "yantra2" ? "Hexagram" :
+                          "FlowerOfLifeSegment"
                         }
                         className="w-full h-full text-grimoire-primary/70 group-hover:text-grimoire-primary transition-colors duration-300 animate-rotate-slow"
                         size={100}
@@ -270,9 +269,9 @@ const Armory = () => {
                     <div className="aspect-square bg-grimoire-background rounded-md border border-grimoire-border flex items-center justify-center relative overflow-hidden p-6 group">
                        <SacredGeometry
                         name={
-                          jantra.id === "jantra1" ? "Pentagram" : // Example mapping
+                          jantra.id === "jantra1" ? "Pentagram" :
                           jantra.id === "jantra2" ? "FlowerOfLifeSegment" :
-                          "DefaultSymbol" // Default for other jantras
+                          "DefaultSymbol"
                         }
                         className="w-full h-full text-grimoire-primary/60 group-hover:text-grimoire-primary transition-colors duration-300 transform-gpu animate-float"
                         size={80}
@@ -310,21 +309,5 @@ const Armory = () => {
     </GrimoireLayout>
   );
 };
-
-const Star = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    {/* Lucide star path or similar will be used by the imported Star component */}
-// Local Star component definition is now removed as lucide-react Star is used.
 
 export default Armory;
