@@ -1,5 +1,6 @@
 import React from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
+import ChaosLayout from "@/components/ChaosLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CurrentStatus from "@/components/home/CurrentStatus";
 import SearchBar from "@/components/home/SearchBar";
@@ -29,7 +30,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <GrimoireLayout>
+    <ChaosLayout>
       <div className="container mx-auto px-4 py-8">
         {/* Simple Dashboard Section */}
         <div className="mb-8">
@@ -76,7 +77,7 @@ const Index = () => {
           <EchoAssistant />
         </div>
       </div>
-    </GrimoireLayout>
+    </ChaosLayout>
   );
 };
 

@@ -1,6 +1,6 @@
-
 import React, { useState } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
+import ChaosLayout from "@/components/ChaosLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -36,7 +36,7 @@ const Practice = () => {
   ];
 
   return (
-    <GrimoireLayout>
+    <ChaosLayout>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-grimoire-primary font-inter mb-4">Practice</h1>
         <div className="mb-6">
@@ -70,7 +70,7 @@ const Practice = () => {
           ))}
         </div>
       </div>
-    </GrimoireLayout>
+    </ChaosLayout>
   );
 };
 

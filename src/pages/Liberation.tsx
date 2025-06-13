@@ -1,6 +1,6 @@
-
 import React, { useState } from "react";
 import GrimoireLayout from "@/components/GrimoireLayout";
+import ChaosLayout from "@/components/ChaosLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -54,7 +54,7 @@ const Liberation = () => {
   };
 
   return (
-    <GrimoireLayout>
+    <ChaosLayout>
       <div className="container mx-auto px-4 py-8 font-inter">
         <h1 className="text-3xl font-bold text-grimoire-primary mb-4 font-inter">Liberation System</h1>
         <div className="mb-6">
@@ -190,7 +190,7 @@ const Liberation = () => {
           </div>
         </div>
       </div>
-    </GrimoireLayout>
+    </ChaosLayout>
   );
 };
 
