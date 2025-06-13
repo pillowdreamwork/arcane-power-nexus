@@ -5,37 +5,85 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Arcane Power Nexus - A spiritual dashboard for exploration and rituals" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Arcane Power Nexus - A mystical spiritual dashboard combining ancient wisdom with modern technology for exploration, rituals, and personal transformation." />
+    <meta name="keywords" content="spiritual, meditation, rituals, AI assistant, mystical, spiritual growth, personal transformation" />
+    <meta name="author" content="Arcane Power Nexus" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Arcane Power Nexus" />
+    <meta property="og:description" content="A mystical spiritual dashboard for exploration and rituals" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.com" />
+    <meta property="og:image" content="https://your-domain.com/og-image.png" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Arcane Power Nexus" />
+    <meta name="twitter:description" content="A mystical spiritual dashboard for exploration and rituals" />
+    <meta name="twitter:image" content="https://your-domain.com/twitter-image.png" />
+    
+    <!-- Theme and Mobile Optimization -->
     <meta name="theme-color" content="#121218" />
-    <title>Arcane Power Nexus</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Arcane Nexus" />
+    
+    <title>Arcane Power Nexus - Mystical Spiritual Dashboard</title>
+    
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Font Loading with display=swap for better performance -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
     
     <!-- Preload critical assets -->
     <link rel="preload" href="/fonts/symbola.ttf" as="font" type="font/ttf" crossorigin />
     
-    <!-- Add PWA support -->
+    <!-- PWA Support -->
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Arcane Power Nexus",
+      "description": "A mystical spiritual dashboard for exploration and rituals",
+      "url": "https://your-domain.com",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Compatibility shims for older browsers -->
     <script>
       window.global = window;
       window.process = { env: {} };
       var exports = {};
     </script>
     
-    <!-- Google tag (gtag.js) - Analytics placeholder -->
+    <!-- Placeholder for analytics - uncomment and configure when ready -->
     <!-- 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=MEASUREMENT_ID"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'MEASUREMENT_ID');
+      gtag('config', 'GA_MEASUREMENT_ID');
     </script>
     -->
   </body>
