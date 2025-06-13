@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Skull, Zap, Bomb } from 'lucide-react';
+import EnergyTrap from './EnergyTrap';
 
 const DestructionOverlay: React.FC = () => {
   const [destructionLevel, setDestructionLevel] = useState(0);
@@ -24,6 +25,10 @@ const DestructionOverlay: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleEnergyTrapped = (amount: number) => {
+    setDestructionLevel(prev => Math.max(prev - amount, 0));
+  };
+
   const glitchStyle = destructionLevel > 50 ? {
     animation: 'glitch 0.3s infinite',
     filter: `hue-rotate(${destructionLevel * 3.6}deg) saturate(${100 + destructionLevel}%)`
@@ -32,7 +37,7 @@ const DestructionOverlay: React.FC = () => {
   return (
     <div className="fixed inset-0 pointer-events-none z-30">
       {/* Destruction progress bar */}
-      <div className="absolute top-4 right-4 w-64 bg-black/80 border border-red-500 rounded p-2">
+      <div className="absolute top-4 right-4 w-64 bg-black/80 border border-red-500 rounded p-2 pointer-events-auto">
         <div className="text-red-500 text-xs font-mono mb-1">DESTRUCTION PROGRESS</div>
         <div className="w-full bg-gray-800 rounded-full h-2">
           <div 
@@ -95,6 +100,14 @@ const DestructionOverlay: React.FC = () => {
           </svg>
         </div>
       )}
+
+      {/* Energy Trapping Interface - Allow pointer events */}
+      <div className="pointer-events-auto">
+        <EnergyTrap 
+          chaosLevel={destructionLevel} 
+          onEnergyTrapped={handleEnergyTrapped}
+        />
+      </div>
     </div>
   );
 };
