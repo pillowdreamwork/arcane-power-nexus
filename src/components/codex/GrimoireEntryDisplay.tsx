@@ -147,7 +147,7 @@ const GrimoireEntryDisplay: React.FC<GrimoireEntryDisplayProps> = ({ entry }) =>
               <div className="flex flex-wrap gap-1">
                 {entry.crossReferences.map((ref, index) => (
                   <Badge key={index} variant="outline" className="text-xs text-grimoire-foreground/70 border-grimoire-border hover:border-grimoire-primary hover:text-grimoire-primary cursor-pointer font-inter">
-                    {ref.title}
+                    {ref}
                   </Badge>
                 ))}
               </div>

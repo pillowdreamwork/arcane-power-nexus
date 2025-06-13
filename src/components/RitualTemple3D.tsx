@@ -1,3 +1,4 @@
+
 import * as THREE from 'three';
 import { useRef, useMemo, useState, useCallback } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
@@ -525,12 +526,11 @@ function WarScene({ onHit, activePowerUps }: { onHit: () => void, activePowerUps
         ))}
       </group>
 
-      {/* Atmosphere */}
+      {/* Atmosphere - Fixed Cloud props */}
       <Cloud
         opacity={0.5}
         speed={0.4}
-        width={20}
-        depth={5}
+        bounds={[20, 5, 20]}
         segments={20}
       />
       
